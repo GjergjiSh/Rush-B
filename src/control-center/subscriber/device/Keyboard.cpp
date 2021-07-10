@@ -31,7 +31,7 @@ void Keyboard::Process_Input()
         }
 
         std::lock_guard<std::mutex> lock(mutex);
-        for (int32_t i = 0; i < rd / sizeof(struct input_event); i++) {
+        for (long unsigned int i = 0; i < rd / sizeof(struct input_event); i++) {
             if (ev[i].type == EV_KEY) {
                 //Steering right
                 if (ev[i].code == KEY_RIGHT) {
