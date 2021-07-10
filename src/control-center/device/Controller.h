@@ -28,6 +28,7 @@ public:
     void Process_Input();
     void Start_Thread();
     int32_t Initialize_Device();
+    void Print_Driver_Wish();
 
     coordinates stick_coordinates[3];
     js_event event;

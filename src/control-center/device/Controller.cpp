@@ -62,11 +62,11 @@ void Controller::Handle_Button_Events()
 {
     js_event* ev = &event;
 
-    if (ev->number == L1) {
-        //Move camera left
+    if (ev->number == L1) { //Turn Camera Left
+        this->driver_wish.set_top_servo(this->driver_wish.top_servo() - 10);
     }
-    else if (ev->number == R1) {
-        //Move camera right
+    else if (ev->number == R1) { //Turn Camera Right
+        this->driver_wish.set_top_servo(this->driver_wish.top_servo() + 10);
     }
 }
 
@@ -83,24 +83,25 @@ void Controller::Handle_Thumbstick_Events()
 
         if (stick_coordinates[RIGHTSTICK].x > 0) // Right Thumbstick Moving Down
         {
-            //Slow right servo down
+            this->driver_wish.set_right_servo(stick_coordinates[RIGHTSTICK].x);
         } else if (stick_coordinates[RIGHTSTICK].x < 0) // Right Thumbstick Moving Up
         {
-            //Speed right servo up
+            this->driver_wish.set_right_servo(stick_coordinates[RIGHTSTICK].x);
         } else // Left Thumbstick not moving
         {
-            //Stop right servo
+            this->driver_wish.set_right_servo((0));
         }
     } else if (thumb_stick == LEFTSTICK) {
-        if (stick_coordinates[LEFTSTICK].x > 0) // Left Thumbstick Moving Down
+        if (stick_coordinates[LEFTSTICK].y > 0) // Left Thumbstick Moving Down
         {
-            //Speed left servo up
-        } else if (stick_coordinates[LEFTSTICK].x < 0) // Left Thumbstick Moving Up
+            this->driver_wish.set_left_servo(stick_coordinates[LEFTSTICK].y);
+
+        } else if (stick_coordinates[LEFTSTICK].y < 0) // Left Thumbstick Moving Up
         {
-            //Slow left servo down
+            this->driver_wish.set_left_servo(stick_coordinates[LEFTSTICK].y);
         } else // Left Thumbstick not moving
         {
-            //Stop left servo
+            this->driver_wish.set_left_servo((0));
         }
     }
 }
@@ -130,4 +131,11 @@ void Controller::Start_Thread()
 {
     input_thread = thread(&Controller::Process_Input, this);
     std::cout << "[I] [ Control-Center  -> Controller ] Controller Thread Started" << std::endl;
+}
+
+void Controller::Print_Driver_Wish()
+{
+    std::cout << "Top-Servo: " << driver_wish.top_servo() << std::endl;
+    std::cout << "Left-Servo: " << driver_wish.left_servo() << std::endl;
+    std::cout << "Right-Servo: " << driver_wish.right_servo() << std::endl;
 }

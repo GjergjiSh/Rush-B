@@ -14,8 +14,9 @@ public:
     int32_t Subscribe_To_Video();
     int32_t Unsubscribe_From_Video();
 
-protected:
     VideoSubscriber video_subscriber;
+
+protected:
     std::thread video_thread;
 
 };

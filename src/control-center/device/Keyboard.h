@@ -14,6 +14,7 @@ public:
     void Process_Input();
     void Start_Thread();
     struct input_event ev[64];
+    void Print_Driver_Wish();
 };
 
 #endif /* KEYBOARD_H */

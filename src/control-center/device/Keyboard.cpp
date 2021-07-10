@@ -85,3 +85,10 @@ void Keyboard::Start_Thread()
     input_thread = thread(&Keyboard::Process_Input, this);
     std::cout << "[I] [ Control-Center -> Keyboard ] Keyboard Thread Started" << std::endl;
 }
+
+void Keyboard::Print_Driver_Wish()
+{
+    std::cout << "Top-Servo: " << driver_wish.top_servo() << std::endl;
+    std::cout << "Left-Servo: " << driver_wish.left_servo() << std::endl;
+    std::cout << "Right-Servo: " << driver_wish.right_servo() << std::endl;
+}
