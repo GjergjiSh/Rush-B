@@ -1,3 +1,6 @@
+#ifndef CONTROLCENTER_H
+#define CONTROLCENTER_H
+
 #include "Subscriber.h"
 #include "Publisher.h"
 #include "Keyboard.h"
@@ -23,3 +26,5 @@ public:
     Controller controller;
 
 };
+
+#endif /* CONTROLCENTER_H */
