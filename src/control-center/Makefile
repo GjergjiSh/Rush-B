@@ -1,0 +1,106 @@
+PRJ_PATH = -I./subscriber/video \
+           -I./subscriber/device \
+           -I./publisher/serializer \
+		   -I/usr/include/gstreamer-1.0 \
+		   -I/usr/include/glib-2.0 \
+		   -I/usr/lib/x86_64-linux-gnu/glib-2.0/include \
+           -I../../protobuf \
+           -I./subscriber \
+           -I./publisher \
+           -I.
+
+OBJ_PATH = ./obj
+
+BUILD_PATH = ./build
+
+POST_BUILD = @mv
+
+OBJ_PRJ = $(OBJ_PATH)/Keyboard.o $(OBJ_PATH)/Controller.o $(OBJ_PATH)/Serializer.o $(OBJ_PATH)/VideoPipeline.o $(OBJ_PATH)/Publisher.o $(OBJ_PATH)/Subscriber.o $(OBJ_PATH)/ControlCenter.o
+
+CC = g++ -std=c++17 -static-libgcc -static-libstdc++ -fPIC $(PRJ_PATH) -m64 -msse2 -Wall -O2 -Wno-comment -Wno-deprecated-declarations -c
+
+LIB_PRJ = -l:libzmq.so -l:libprotobuf.so -lgstreamer-1.0 -lgobject-2.0 -lglib-2.0 -lgstapp-1.0 -ldl -lpthread
+
+all: $(OBJ_PATH) $(BUILD_PATH)  ControlCenter $(POST_BUILD)
+
+$(OBJ_PATH):
+	mkdir -p $(OBJ_PATH)
+
+$(BUILD_PATH):
+	mkdir -p $(BUILD_PATH)
+
+$(POST_BUILD):
+	$(POST_BUILD) ControlCenter $(BUILD_PATH)
+
+ControlCenter: $(OBJ_PRJ)
+	g++ $(OBJ_PRJ) $(LIB_PRJ) -o ControlCenter
+
+$(OBJ_PATH)/Keyboard.o: ./subscriber/device/Keyboard.cpp
+	$(CC) -o $@ $?
+
+$(OBJ_PATH)/Controller.o: ./subscriber/device/Controller.cpp
+	$(CC) -o $@ $?
+
+$(OBJ_PATH)/Serializer.o: ./publisher/serializer/Serializer.cpp
+	$(CC) -o $@ $?
+
+$(OBJ_PATH)/VideoPipeline.o: ./subscriber/video/VideoPipeline.cpp
+	$(CC) -o $@ $?
+
+$(OBJ_PATH)/Publisher.o: ./publisher/Publisher.cpp
+	$(CC) -o $@ $?
+
+$(OBJ_PATH)/Subscriber.o: ./subscriber/Subscriber.cpp
+	$(CC) -o $@ $?
+
+$(OBJ_PATH)/ControlCenter.o: ./ControlCenter.cpp
+	$(CC) -o $@ $?
+
+clean:
+	rm -f -v -R $(OBJ_PATH)
+	rm -f -v -R $(BUILD_PATH)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# $(BUILD_PATH) #ProtoFiles
+
+# BUILD_PATH = ./build
+
+#LD = g++ -static-libgcc -static-libstdc++ -m64 -Wall -shared -Wl,-rpath=./,-soname,-soname,Driver.so -o Driver.so
+
+#LD = g++ $(OBJ_PATH) -o control-center
+
+# PROTOC = ./protoc -I=../../protocol --cpp_out=../../protocol ../../protocol/DriverWish.proto
+
+# ProtoFiles:
+# ifdef cp_lib
+# 	@cd ./NetworkingDependencies/bin/ && $(PROTOC)
+
+# $(BUILD_PATH):
+# 	mkdir -p $(BUILD_PATH)
+
+# $(POST_BUILD):
+# 	$(POST_BUILD) Driver.so $(BUILD_PATH)
+# 	@cp ./NetworkingDependencies/Lib/libprotobuf.so.26 $(BUILD_PATH)
+# 	@cp ./NetworkingDependencies/Lib/libzmq.so.5 $(BUILD_PATH)
+
+# clean:
+# 	rm -f -v -R $(OBJ_PATH)
+# 	rm -f -v Driver.so
+# 	rm -f -v ModuleHashes.h
+# 	rm -f -v -R $(BUILD_PATH)
