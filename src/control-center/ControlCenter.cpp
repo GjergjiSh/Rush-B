@@ -80,13 +80,3 @@ int32_t ControlCenter::Deinit()
     delete this->publisher;
     return -1;
 }
-
-
-int main()
-{
-    ControlCenter *control_center = new ControlCenter();
-    control_center->Init();
-    control_center->Deinit();
-    delete control_center;
-
-}

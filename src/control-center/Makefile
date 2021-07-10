@@ -15,7 +15,7 @@ BUILD_PATH = ./build
 
 POST_BUILD = @mv
 
-OBJ_PRJ = $(OBJ_PATH)/Keyboard.o $(OBJ_PATH)/Controller.o $(OBJ_PATH)/Serializer.o $(OBJ_PATH)/VideoPipeline.o $(OBJ_PATH)/Publisher.o $(OBJ_PATH)/Subscriber.o $(OBJ_PATH)/ControlCenter.o
+OBJ_PRJ = $(OBJ_PATH)/Keyboard.o $(OBJ_PATH)/Controller.o $(OBJ_PATH)/Serializer.o $(OBJ_PATH)/VideoPipeline.o $(OBJ_PATH)/Publisher.o $(OBJ_PATH)/Subscriber.o $(OBJ_PATH)/ControlCenter.o $(OBJ_PATH)/Main.o
 
 CC = g++ -std=c++17 -static-libgcc -static-libstdc++ -fPIC $(PRJ_PATH) -m64 -msse2 -Wall -O2 -Wno-comment -Wno-deprecated-declarations -c
 
@@ -34,6 +34,9 @@ $(POST_BUILD):
 
 ControlCenter: $(OBJ_PRJ)
 	g++ $(OBJ_PRJ) $(LIB_PRJ) -o ControlCenter
+
+$(OBJ_PATH)/Main.o: ./Main.cpp
+	$(CC) -o $@ $?
 
 $(OBJ_PATH)/Keyboard.o: ./device/Keyboard.cpp
 	$(CC) -o $@ $?
