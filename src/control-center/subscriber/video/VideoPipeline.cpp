@@ -108,6 +108,7 @@ int32_t VideoSubscriber::Destroy_Pipeline()
 {
     gst_element_set_state(this->pipeline.pipe, GST_STATE_NULL);
     gst_object_unref(GST_OBJECT(this->pipeline.pipe));
+    g_print("[I] [ Control-Center -> VideoPipeline ] Subscriber Video Pipeline destroyed\n");
     //memset(pipeline, 0, sizeof(tVideoPipeline));
     return 0;
 }
@@ -121,7 +122,7 @@ int32_t VideoSubscriber::Set_Pipeline_State_Playing()
         gst_object_unref(pipeline.pipe);
         return -1;
     } else {
-         g_print("[I] [ Control-Center -> VideoPipeline ] Subscriber Video Pipeline set to playing");
+         g_print("[I] [ Control-Center -> VideoPipeline ] Subscriber Video Pipeline set to playing\n");
     }
     return 0;
 }
