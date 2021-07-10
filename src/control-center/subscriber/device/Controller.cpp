@@ -16,7 +16,7 @@ int32_t Controller::Initialize_Device()
         fprintf(stderr, "[E] [ Control-Center -> Controller ] Cannot open %s: %s.\n", device_path, strerror(errno));
         return -1;
     } else {
-        printf(" [I] [ Control-Center -> Controller ] Device Recognized\n");
+        printf("[I] [ Control-Center -> Controller ] Device Recognized\n");
         ioctl(file_descriptor, JSIOCGNAME(sizeof(name)), name);
         printf("[I] [ Control-Center -> Controller ] Device name: %s\n", name);
     }
@@ -129,5 +129,5 @@ void Controller::Process_Input()
 void Controller::Start_Thread()
 {
     input_thread = thread(&Controller::Process_Input, this);
-    std::cout << "[I] [Control-Center  -> Controller ] Controller Thread Started" << std::endl;
+    std::cout << "[I] [ Control-Center  -> Controller ] Controller Thread Started" << std::endl;
 }
