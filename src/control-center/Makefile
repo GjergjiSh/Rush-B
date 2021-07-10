@@ -1,5 +1,4 @@
 PRJ_PATH = -I./subscriber/video \
-           -I./subscriber/device \
            -I./publisher/serializer \
 		   -I/usr/include/gstreamer-1.0 \
 		   -I/usr/include/glib-2.0 \
@@ -7,6 +6,7 @@ PRJ_PATH = -I./subscriber/video \
            -I../../protobuf \
            -I./subscriber \
            -I./publisher \
+		   -I./device \
            -I.
 
 OBJ_PATH = ./obj
@@ -35,10 +35,10 @@ $(POST_BUILD):
 ControlCenter: $(OBJ_PRJ)
 	g++ $(OBJ_PRJ) $(LIB_PRJ) -o ControlCenter
 
-$(OBJ_PATH)/Keyboard.o: ./subscriber/device/Keyboard.cpp
+$(OBJ_PATH)/Keyboard.o: ./device/Keyboard.cpp
 	$(CC) -o $@ $?
 
-$(OBJ_PATH)/Controller.o: ./subscriber/device/Controller.cpp
+$(OBJ_PATH)/Controller.o: ./device/Controller.cpp
 	$(CC) -o $@ $?
 
 $(OBJ_PATH)/Serializer.o: ./publisher/serializer/Serializer.cpp
