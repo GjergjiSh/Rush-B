@@ -5,6 +5,7 @@
 #include "VideoPipeline.h"
 #include "Keyboard.h"
 #include "Controller.h"
+#include "Device.h"
 
 class Subscriber {
 
@@ -15,6 +16,7 @@ public:
     int32_t Subscribe_To_Video();
     int32_t Unsubscribe_From_Video();
     int32_t Subscribe_To_Device();
+    int32_t Unsubscribe_From_Device();
 
 
 protected:
