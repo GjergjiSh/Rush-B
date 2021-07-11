@@ -1,47 +1,72 @@
 <mxfile>
     <diagram id="ErXuUeIud-YGYOo-H0eF" name="Context">
-        <mxGraphModel dx="1568" dy="715" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="2418" dy="715" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
+                <object label="" hedietLinkedDataV1_path="../hardware" id="E4489oofmE9XClKUB_p3-47">
+                    <mxCell style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=4;" vertex="1" parent="1">
+                        <mxGeometry x="420" y="60" width="570" height="340" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="" hedietLinkedDataV1_path="../hardware" id="E4489oofmE9XClKUB_p3-46">
+                    <mxCell style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=4;" vertex="1" parent="1">
+                        <mxGeometry x="-90" y="60" width="420" height="340" as="geometry"/>
+                    </mxCell>
+                </object>
                 <mxCell id="36" value="Rush-B&lt;br&gt;(Ras.Pi)" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;strokeWidth=4;" parent="1" vertex="1">
-                    <mxGeometry x="330" y="50" width="180" height="180" as="geometry"/>
+                    <mxGeometry x="470" y="130" width="180" height="180" as="geometry"/>
                 </mxCell>
                 <mxCell id="37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.023;exitY=0.333;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;endArrow=classicThin;endFill=1;exitPerimeter=0;dashed=1;" parent="1" source="36" target="39" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;endArrow=classicThin;endFill=1;dashed=1;" parent="1" source="39" edge="1">
+                <mxCell id="38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;endArrow=classicThin;endFill=1;dashed=1;entryX=0.063;entryY=0.773;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="39" edge="1" target="36">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="344" y="190" as="targetPoint"/>
+                        <mxPoint x="344" y="270" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <object label="Control Center" hedietLinkedDataV1_path="../../src/control-center" id="39">
                     <mxCell style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                        <mxGeometry x="20" y="70" width="200" height="160" as="geometry"/>
+                        <mxGeometry x="20" y="150" width="200" height="160" as="geometry"/>
                     </mxCell>
                 </object>
-                <mxCell id="40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=0.974;entryY=0.334;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=classicThin;endFill=1;" parent="1" source="42" target="36" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                <mxCell id="40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.98;entryY=0.341;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=classicThin;endFill=1;" parent="1" source="E4489oofmE9XClKUB_p3-48" target="36" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="760" y="190" as="sourcePoint"/>
+                    </mxGeometry>
                 </mxCell>
-                <mxCell id="41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.919;exitY=0.775;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;endArrow=classicThin;endFill=1;exitPerimeter=0;" parent="1" source="36" target="42" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                <mxCell id="41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.919;exitY=0.775;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=classicThin;endFill=1;exitPerimeter=0;" parent="1" source="36" target="E4489oofmE9XClKUB_p3-49" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="760" y="269.9999999999999" as="targetPoint"/>
+                    </mxGeometry>
                 </mxCell>
-                <object label="Robot" hedietLinkedDataV1_path="../hardware" id="42">
-                    <mxCell style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=4;" parent="1" vertex="1">
-                        <mxGeometry x="620" y="70" width="200" height="160" as="geometry"/>
-                    </mxCell>
-                </object>
-                <mxCell id="43" value="&lt;font style=&quot;font-size: 7px&quot;&gt;Camera Stream&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-                    <mxGeometry x="250" y="80" width="80" height="20" as="geometry"/>
+                <mxCell id="43" value="&lt;font style=&quot;font-size: 7px&quot;&gt;Compressed Camera Stream&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="337" y="158" width="80" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="44" value="&lt;font style=&quot;font-size: 7px&quot;&gt;Camera Stream&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-                    <mxGeometry x="510" y="80" width="80" height="20" as="geometry"/>
+                    <mxGeometry x="660" y="164" width="80" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="45" value="&lt;font style=&quot;font-size: 7px&quot;&gt;Driver Wishes&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-                    <mxGeometry x="250" y="160" width="80" height="20" as="geometry"/>
+                    <mxGeometry x="337" y="241" width="80" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="46" value="&lt;font style=&quot;font-size: 7px&quot;&gt;Servo Controls&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-                    <mxGeometry x="510" y="160" width="80" height="20" as="geometry"/>
+                    <mxGeometry x="660" y="270" width="80" height="20" as="geometry"/>
+                </mxCell>
+                <object label="Camera" hedietLinkedDataV1_path="../hardware" id="E4489oofmE9XClKUB_p3-48">
+                    <mxCell style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=4;" vertex="1" parent="1">
+                        <mxGeometry x="750" y="164" width="180" height="54" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="Ardunio" hedietLinkedDataV1_path="../hardware" id="E4489oofmE9XClKUB_p3-49">
+                    <mxCell style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=4;" vertex="1" parent="1">
+                        <mxGeometry x="751" y="245" width="180" height="50" as="geometry"/>
+                    </mxCell>
+                </object>
+                <mxCell id="E4489oofmE9XClKUB_p3-50" value="Local Machine" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="70" y="90" width="90" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="E4489oofmE9XClKUB_p3-51" value="Robot" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="660" y="90" width="90" height="20" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
