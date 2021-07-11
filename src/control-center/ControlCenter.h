@@ -13,7 +13,6 @@ public:
     ~ControlCenter();
 
     int32_t Connect_Device();
-    int32_t Disconnect_Device();
 
     int32_t Init();
     int32_t Control_Robot();
@@ -26,7 +25,6 @@ public:
     Keyboard keyboard;
     Controller controller;
 
-    std::mutex mutex;
 };
 
 #endif /* CONTROLCENTER_H */

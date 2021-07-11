@@ -9,6 +9,8 @@
 #include <signal.h>
 #include <unistd.h>
 
+#define RUNNING (!do_shutdown && !shutdown_requested.load())
+
 namespace {
 
 volatile sig_atomic_t do_shutdown = 0;
@@ -20,7 +22,8 @@ void Signal_Handler(int /*signum*/)
 {
     do_shutdown = 1;
     shutdown_requested = true;
-    std::cout << "[I] [ Control-Center -> SigHandler ] Received Interrupt Signal, Exiting Cleanly \n" << std::endl;
+    std::cout << "[I] [ Control-Center -> Sighandler ] Received Interrupt Signal, Exiting Cleanly \n" << std::endl;
 }
+
 
 #endif /* SIGHANDLER_H */

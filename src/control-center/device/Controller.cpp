@@ -109,10 +109,9 @@ void Controller::Handle_Thumbstick_Events()
 /********************************************************************************************
      * @brief Listens for events and processes them as long as the Device is connected
      ****************************************************************************************/
-void Controller::Process_Input()
+int32_t Controller::Process_Input()
 {
-    while (Connected()) {
-        std::lock_guard<std::mutex> lock(mutex);
+    if (Connected()) {
         switch (event.type) {
         case JS_EVENT_BUTTON:
             Handle_Button_Events();
@@ -123,14 +122,10 @@ void Controller::Process_Input()
         default:
             break;
         }
-        usleep(sleep_timer);
+    } else {
+        return -1;
     }
-}
-
-void Controller::Start_Thread()
-{
-    input_thread = thread(&Controller::Process_Input, this);
-    std::cout << "[I] [ Control-Center  -> Controller ] Controller Thread Started" << std::endl;
+    return 0;
 }
 
 void Controller::Print_Driver_Wish()

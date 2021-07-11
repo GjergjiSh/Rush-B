@@ -11,8 +11,7 @@ public:
     Keyboard();
     ~Keyboard();
     int32_t Initialize_Device();
-    void Process_Input();
-    void Start_Thread();
+    int32_t Process_Input();
     struct input_event ev[64];
     void Print_Driver_Wish();
 };
