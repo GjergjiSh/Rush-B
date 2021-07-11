@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package PBDriverWish;
+
+message PBDriverWish {
+    int32 left_servo = 1;
+    int32 right_servo = 2;
+    int32 top_servo = 3;
+}
