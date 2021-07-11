@@ -8,9 +8,9 @@ PRJ_PATH = -I./publisher/arduino-link/ \
            -I./publisher \
            -I.
 
-OBJ_PATH = ./obj/
+OBJ_PATH = ./obj
 
-BUILD_PATH = ./build/
+BUILD_PATH = ./build
 
 POST_BUILD = @mv
 
@@ -39,13 +39,13 @@ RushB: $(OBJ_PRJ)
 $(OBJ_PATH)/Main.o: ./Main.cpp
 	$(CC) -o $@ $?
 
-$(OBJ_PATH)/VideoPipeline.o: ./publisher/video/VideoPipeline.cpp
+$(OBJ_PATH)/VideoPipeline.o: ./publisher/video/RVideoPipeline.cpp
 	$(CC) -o $@ $?
 
-$(OBJ_PATH)/Publisher.o: ./publisher/Publisher.cpp
+$(OBJ_PATH)/Publisher.o: ./publisher/RPublisher.cpp
 	$(CC) -o $@ $?
 
-$(OBJ_PATH)/Subscriber.o: ./subscriber/Subscriber.cpp
+$(OBJ_PATH)/Subscriber.o: ./subscriber/RSubscriber.cpp
 	$(CC) -o $@ $?
 
 $(OBJ_PATH)/RushB.o: ./RushB.cpp

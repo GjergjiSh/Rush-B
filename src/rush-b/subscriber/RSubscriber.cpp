@@ -15,11 +15,11 @@ int32_t Subscriber::ZMQ_Init_Connection()
         this->zmq_sub_socket.setsockopt(ZMQ_SUBSCRIBE, "KEYBOARD", 10);
         this->zmq_sub_socket.setsockopt(ZMQ_LINGER, 0);
         this->zmq_sub_socket.connect("tcp://" + this->zqm_sub_transport);
-        cout << "[I] [ Rush-B -> Publisher ] ZMQ Connection Successfuly Initialized - "
+        cout << "[I] [ Rush-B -> Subscriber ] ZMQ Connection Successfuly Initialized - "
              << this->zqm_sub_transport << endl;
 
     } catch (zmq::error_t& e) {
-        cerr << "[E] [ Rush-B -> Publisher ] Failed to Initialize ZMQ Connection "
+        cerr << "[E] [ Rush-B -> Subscriber ] Failed to Initialize ZMQ Connection "
              << e.what() << endl;
         return -1;
     }
@@ -32,17 +32,17 @@ int32_t Subscriber::ZMQ_Deinit_Connection()
     try {
         this->zmq_sub_socket.close();
         zmq_sub_context.close();
-        cout << "[I] [ Rush-B -> Publisher ] ZMQ Connection Successfuly Closed " << endl;
+        cout << "[I] [ Rush-B -> Subscriber ] ZMQ Connection Successfuly Closed " << endl;
     } catch (zmq::error_t& e) {
-        cerr << "[E] [ Rush-B -> Publisher ] Failed To Close ZMQ Connection "
+        cerr << "[E] [ Rush-B -> Subscriber ] Failed To Close ZMQ Connection "
              << e.what() << endl;
         return -1;
     }
     return 0;
 }
 
-//Receives a ZMQ (Topic:String) multipart message
-int32_t Subscriber::ZMQ_Receive()
+//Receives a ZMQ (Topic:String) multipart message and converts it to DriverWish obj
+PBDriverWish::PBDriverWish Subscriber::ZMQ_Receive()
 {
     int32_t recv = 0;
     zmq::message_t z_topic;
@@ -64,9 +64,8 @@ int32_t Subscriber::ZMQ_Receive()
         }
 
     } catch (zmq::error_t& e) {
-        cerr << "[E] [ Rush-B -> Publisher ] Failed To Receive ZMQ Messages "
+        cerr << "[E] [ Rush-B -> Subscriber ] Failed To Receive ZMQ Messages "
              << e.what() << endl;
-        return -1;
     }
-    return 0;
+    return pb_driver_wish;
 }

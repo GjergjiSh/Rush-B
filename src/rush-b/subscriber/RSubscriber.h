@@ -13,7 +13,7 @@ public:
 
     int32_t ZMQ_Init_Connection();
     int32_t ZMQ_Deinit_Connection();
-    int32_t ZMQ_Receive();
+    PBDriverWish::PBDriverWish ZMQ_Receive();
 
     std::string zqm_sub_transport;
 
