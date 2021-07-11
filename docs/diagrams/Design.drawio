@@ -68,13 +68,13 @@
                 <mxCell id="hBGDXqv4ChNwCZFngD7n-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=diamond;endFill=1;" parent="IdVg-kYgQufMAfkIFYJ4-1" source="hBGDXqv4ChNwCZFngD7n-5" target="hBGDXqv4ChNwCZFngD7n-17" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="hBGDXqv4ChNwCZFngD7n-5" value="Right&lt;br&gt;Stepper" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=4;" parent="IdVg-kYgQufMAfkIFYJ4-1" vertex="1">
+                <mxCell id="hBGDXqv4ChNwCZFngD7n-5" value="Right&lt;br&gt;Servo" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=4;" parent="IdVg-kYgQufMAfkIFYJ4-1" vertex="1">
                     <mxGeometry x="380" y="240" width="80" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="hBGDXqv4ChNwCZFngD7n-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=diamond;endFill=1;" parent="IdVg-kYgQufMAfkIFYJ4-1" source="hBGDXqv4ChNwCZFngD7n-7" target="hBGDXqv4ChNwCZFngD7n-16" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="hBGDXqv4ChNwCZFngD7n-7" value="Left&lt;br&gt;Stepper" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=4;" parent="IdVg-kYgQufMAfkIFYJ4-1" vertex="1">
+                <mxCell id="hBGDXqv4ChNwCZFngD7n-7" value="Left&lt;br&gt;Servo" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=4;" parent="IdVg-kYgQufMAfkIFYJ4-1" vertex="1">
                     <mxGeometry x="100" y="240" width="80" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="hBGDXqv4ChNwCZFngD7n-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=diamond;endFill=1;" parent="IdVg-kYgQufMAfkIFYJ4-1" source="hBGDXqv4ChNwCZFngD7n-9" target="hBGDXqv4ChNwCZFngD7n-11" edge="1">
