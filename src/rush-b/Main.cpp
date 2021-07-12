@@ -12,6 +12,9 @@ int main(int argc, char* argv[])
     action.sa_flags = 0;
     sigaction(SIGINT, &action, NULL);
 
+    //Init Gstreamer
+    gst_init(&argc, &argv);
+
     //Entry (ArduinoLink, VideoPipeline and ZMQ Connection)
     RushB* rush_b = new RushB();
     if (rush_b->Init() == 0) {

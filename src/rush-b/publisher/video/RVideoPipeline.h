@@ -1,5 +1,5 @@
-#ifndef VIDEOPIPELINE_H
-#define VIDEOPIPELINE_H
+#ifndef R_VIDEOPIPELINE_H
+#define R_VIDEOPIPELINE_H
 
 #include <gst/gst.h>
 #include <iostream>
@@ -47,7 +47,6 @@ public:
     int32_t Set_Pipeline_State_Playing();
 
     tVideoPipeline pipeline;
-    GMainLoop* loop;
 };
 
-#endif /* VIDEOPIPELINE_H */
+#endif /* R_VIDEOPIPELINE_H */

@@ -16,8 +16,7 @@ public:
     int32_t Control_Robot();
 
     Subscriber* subscriber;
-    //Publisher* publisher;
-    //ArduinoLink* arduino_link;
+    Publisher* publisher;
 };
 
 #endif //RUSHB_H
