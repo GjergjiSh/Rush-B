@@ -20,17 +20,12 @@ int32_t Keyboard::Initialize_Device()
     return 0;
 }
 
-void Keyboard::Process_Input()
+int32_t Keyboard::Process_Input()
 {
-    while (1) {
-        int32_t rd;
-        struct input_event ev[64];
-        rd = read(file_descriptor, ev, sizeof(struct input_event) * 64);
-        if (rd < (int)sizeof(struct input_event)) {
-            continue; // If events are being read
-        }
-
-        std::lock_guard<std::mutex> lock(mutex);
+    int32_t rd;
+    struct input_event ev[64];
+    rd = read(file_descriptor, ev, sizeof(struct input_event) * 64);
+    if (rd < (int)sizeof(struct input_event)) {
         for (long unsigned int i = 0; i < rd / sizeof(struct input_event); i++) {
             if (ev[i].type == EV_KEY) {
                 //Steering right
@@ -74,16 +69,9 @@ void Keyboard::Process_Input()
                 else if (ev[i].code == KEY_C) {
                 }
             }
-            //Let other threads do their work
-            usleep(sleep_timer);
         }
-    }
-}
-
-void Keyboard::Start_Thread()
-{
-    input_thread = thread(&Keyboard::Process_Input, this);
-    std::cout << "[I] [ Control-Center -> Keyboard ] Keyboard Thread Started" << std::endl;
+    } else { return -1; }
+    return 0;
 }
 
 void Keyboard::Print_Driver_Wish()
