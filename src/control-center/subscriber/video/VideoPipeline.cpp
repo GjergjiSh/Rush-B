@@ -3,6 +3,28 @@
 VideoSubscriber::VideoSubscriber() { }
 VideoSubscriber::~VideoSubscriber() { }
 
+
+static GstBusSyncReply Bus_Message_Callback(GstBus* bus, GstMessage* message, gpointer user_data)
+{
+    switch (GST_MESSAGE_TYPE(message)) {
+    case GST_MESSAGE_EOS:
+        g_print("End of stream\n");
+        break;
+    case GST_MESSAGE_ERROR:
+        gchar* debug;
+        GError* error;
+        gst_message_parse_error(message, &error, &debug);
+        g_free(debug);
+        g_printerr("Error: %s\n", error->message);
+        g_error_free(error);
+        break;
+
+    default:
+        break;
+    }
+    return GST_BUS_PASS;
+}
+
 /********************************************************************************************************************************
  * @note: Used to link decodebin and videoconvert.
  * Decodebin uses something called a "sometimes-pad", which is basically a pad that will show up when a certain condition is met,
@@ -34,6 +56,9 @@ static void Pad_Callback(GstElement* element, GstPad* pad, gpointer data)
 
 int32_t VideoSubscriber::Construct_Pipeline(const char* name, tVideoPipeline* const pipeline)
 {
+    //Init Gstreamer
+    gst_init(NULL, NULL);
+
     //Create Elements
     pipeline->udpsrc = gst_element_factory_make("udpsrc", NULL);
     g_object_set(pipeline->udpsrc, "port", port, NULL);
@@ -101,14 +126,21 @@ int32_t VideoSubscriber::Construct_Pipeline(const char* name, tVideoPipeline* co
         return -1;
     }
 
+    GstBus* bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline->pipe));
+    gst_bus_set_sync_handler(bus, Bus_Message_Callback, NULL, NULL);
+    gst_object_unref(bus);
+
     return 0;
 }
 
 int32_t VideoSubscriber::Destroy_Pipeline()
 {
+    g_main_loop_quit(loop);
+    g_main_loop_unref(loop);
+    //gst_element_send_event(this->pipeline.pipe, gst_event_new_eos());
     gst_element_set_state(this->pipeline.pipe, GST_STATE_NULL);
     gst_object_unref(GST_OBJECT(this->pipeline.pipe));
-    g_print("[I] [ Control-Center -> VideoPipeline ] Subscriber Video Pipeline destroyed\n");
+    printf("[I] [ Control-Center -> VideoPipeline ] Subscriber Video Pipeline destroyed\n");
     //memset(pipeline, 0, sizeof(tVideoPipeline));
     return 0;
 }

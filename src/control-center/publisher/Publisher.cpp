@@ -29,6 +29,7 @@ int32_t Publisher::ZMQ_Deinit_Connection()
 {
     try {
         this->zmq_pub_socket.close();
+        this->zmq_pub_context.close();
         cout << "[I] [ Control-Center -> Publisher ] ZMQ Connection successfuly closed " << endl;
     } catch (zmq::error_t& e) {
         cerr << "[E] [ Control-Center -> Publisher ] Failed to close ZMQ Connection "
