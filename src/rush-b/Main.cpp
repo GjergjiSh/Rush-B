@@ -18,15 +18,14 @@ int main(int argc, char* argv[])
     //Entry (ArduinoLink, VideoPipeline and ZMQ Connection)
     RushB* rush_b = new RushB();
     if (rush_b->Init() == 0) {
-        while (!do_shutdown && !shutdown_requested.load()) {
-            rush_b->Control_Robot();
+        while (RUNNING) {
+            int32_t status = rush_b->Control_Robot();
             usleep(1000);
+            if (status != 0) break;
         }
     }
 
     //Exit
     rush_b->Deinit();
-    delete rush_b;
-
     return 0;
 }

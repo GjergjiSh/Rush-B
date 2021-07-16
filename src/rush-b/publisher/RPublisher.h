@@ -14,7 +14,7 @@ public:
     int32_t Stop_Publishing_Video();
 
     VideoPublisher video_publisher;
-    //ArduinoLink* arduino_link;
+    ArduinoLink arduino_link;
 };
 
 #endif /* R_PUBLISHER_H */

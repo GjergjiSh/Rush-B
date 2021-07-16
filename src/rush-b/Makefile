@@ -14,13 +14,13 @@ BUILD_PATH = ./build
 
 POST_BUILD = @mv
 
-OBJ_PRJ = $(OBJ_PATH)/VideoPipeline.o $(OBJ_PATH)/Publisher.o $(OBJ_PATH)/Subscriber.o $(OBJ_PATH)/RushB.o $(OBJ_PATH)/Main.o $(OBJ_PATH)/PBDriverWish.o
+OBJ_PRJ = $(OBJ_PATH)/VideoPipeline.o $(OBJ_PATH)/Publisher.o $(OBJ_PATH)/Subscriber.o $(OBJ_PATH)/RushB.o $(OBJ_PATH)/Main.o $(OBJ_PATH)/PBDriverWish.o $(OBJ_PATH)/ArduinoLink.o
 
 CC = g++ -std=c++17 -static-libgcc -static-libstdc++ -fPIC $(PRJ_PATH) -m64 -msse2 -Wall -O2 -Wno-comment -Wno-deprecated-declarations -pthread -c
 
 LD = g++ -static-libgcc -static-libstdc++ -m64 -Wall -Wl,--copy-dt-needed-entries
 
-LIB_PRJ = -lzmq -lprotobuf -lgstreamer-1.0 -lgobject-2.0 -lglib-2.0 -lgstapp-1.0 -ldl -lpthread
+LIB_PRJ = -lzmq -lprotobuf -lgstreamer-1.0 -lgobject-2.0 -lglib-2.0 -lgstapp-1.0 -ldl -lpthread -lCppLinuxSerial
 
 all: $(OBJ_PATH) $(BUILD_PATH)  RushB $(POST_BUILD)
 
@@ -53,6 +53,10 @@ $(OBJ_PATH)/RushB.o: ./RushB.cpp
 
 $(OBJ_PATH)/PBDriverWish.o: ../protobuf/PBDriverWish.pb.cc
 	$(CC) -o $@ $?
+
+$(OBJ_PATH)/ArduinoLink.o: ./publisher/arduino-link/ArduinoLink.cpp
+	$(CC) -o $@ $?
+
 
 clean:
 	rm -f -v -R $(OBJ_PATH)
