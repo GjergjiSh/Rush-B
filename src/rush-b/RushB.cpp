@@ -28,8 +28,7 @@ int32_t RushB::Init()
 int32_t RushB::Control_Robot()
 {
     PBDriverWish::PBDriverWish driver_wish = this->subscriber->ZMQ_Receive();
-    int32_t status = 0;
-    this->publisher->arduino_link.Write_To_Port(driver_wish);
+    int32_t status = this->publisher->arduino_link.Write_To_Port(driver_wish);
 
     //Currently only printing out for testing purpouses
     // std::cout << "Top-Servo:" << driver_wish.top_servo() << std::endl;
@@ -37,7 +36,7 @@ int32_t RushB::Control_Robot()
     // std::cout << "Right-Servo:" << driver_wish.right_servo() << std::endl;
 
     usleep(10000);
-    return 0;
+    return status;
 }
 
 int32_t RushB::Deinit()
