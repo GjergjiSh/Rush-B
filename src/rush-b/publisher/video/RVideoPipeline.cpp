@@ -5,6 +5,9 @@ VideoPublisher::~VideoPublisher() { }
 
 int32_t VideoPublisher::Construct_Pipeline(const char* name, tVideoPipeline* const pipeline)
 {
+    //Init Gstreamer
+    gst_init(NULL, NULL);
+
     //Create Elements
     pipeline->v4l2src = gst_element_factory_make("v4l2src", NULL);
     g_object_set(pipeline->v4l2src, "device", pipeline->parameters.camera.c_str(), NULL);

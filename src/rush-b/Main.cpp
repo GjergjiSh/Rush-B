@@ -12,12 +12,12 @@ int main(int argc, char* argv[])
     action.sa_flags = 0;
     sigaction(SIGINT, &action, NULL);
 
-    //Init Gstreamer
-    gst_init(&argc, &argv);
-
     //Entry (ArduinoLink, VideoPipeline and ZMQ Connection)
     RushB* rush_b = new RushB();
+
     if (rush_b->Init() == 0) {
+
+        //Controlling Robot movement
         while (RUNNING) {
             int32_t status = rush_b->Control_Robot();
             usleep(1000);
@@ -26,6 +26,6 @@ int main(int argc, char* argv[])
     }
 
     //Exit
-    //rush_b->Deinit();
+    rush_b->Deinit();
     return 0;
 }

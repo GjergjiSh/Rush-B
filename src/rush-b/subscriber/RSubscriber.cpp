@@ -60,6 +60,8 @@ PBDriverWish::PBDriverWish Subscriber::ZMQ_Receive()
             if (recv > 0) {
                 string driver_wish(static_cast<char*>(z_message.data()), z_message.size());
                 pb_driver_wish.ParseFromString(driver_wish);
+            } else {
+                std::cout << "NOTHING RECEIVED" << std::endl;
             }
         }
 
