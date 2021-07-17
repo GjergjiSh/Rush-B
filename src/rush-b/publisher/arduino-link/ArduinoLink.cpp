@@ -6,7 +6,7 @@ ArduinoLink::~ArduinoLink(){};
 int32_t ArduinoLink::Init_Serial_Port(std::string port)
 {
     try {
-        this->serial_port = new SerialPort(port, BaudRate::B_115200);
+        this->serial_port = new SerialPort(port, BaudRate::B_460800);
         this->serial_port->SetTimeout(-1);
         this->serial_port->Open();
         std::cout << "[I] [ Rush-B -> ArduinoLink] Arduino board connected on port: " << port << std::endl;
@@ -38,6 +38,7 @@ int32_t ArduinoLink::Write_To_Port(PBDriverWish::PBDriverWish driver_wish)
         std::string top_servo = std::to_string(driver_wish.top_servo()) + "&";
         std::string s_driver_wish = left_servo + right_servo + top_servo;
 
+        //std::cout << s_driver_wish << std::endl;
         this->serial_port->Write("!" + s_driver_wish + "\n");
 
     } catch (mn::CppLinuxSerial::Exception& ex) {

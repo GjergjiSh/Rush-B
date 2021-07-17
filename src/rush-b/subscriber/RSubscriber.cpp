@@ -51,7 +51,7 @@ PBDriverWish::PBDriverWish Subscriber::ZMQ_Receive()
     PBDriverWish::PBDriverWish pb_driver_wish;
 
     try {
-        zmq::poll(&subscriber, 1, 0);
+        zmq::poll(&subscriber, 1, -1);
 
         if (subscriber.revents & ZMQ_POLLIN) {
             recv = this->zmq_sub_socket.recv(&z_topic, ZMQ_RCVMORE);
@@ -61,7 +61,7 @@ PBDriverWish::PBDriverWish Subscriber::ZMQ_Receive()
                 string driver_wish(static_cast<char*>(z_message.data()), z_message.size());
                 pb_driver_wish.ParseFromString(driver_wish);
             } else {
-                std::cout << "NOTHING RECEIVED" << std::endl;
+                std::cout << "[W] [ Rush-B -> Subscriber ] Bad ZMQ prefix" << std::endl;
             }
         }
 

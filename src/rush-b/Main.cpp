@@ -1,6 +1,5 @@
 #include "RushB.h"
 #include "SigHandler.h"
-#include "unistd.h"
 
 int main(int argc, char* argv[])
 {
@@ -19,8 +18,8 @@ int main(int argc, char* argv[])
 
         //Controlling Robot movement
         while (RUNNING) {
+
             int32_t status = rush_b->Control_Robot();
-            usleep(1000);
             if (status != 0) break;
         }
     }
