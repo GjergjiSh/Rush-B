@@ -26,6 +26,6 @@ int main(int argc, char* argv[])
     }
 
     //Exit
-    rush_b->Deinit();
+    //rush_b->Deinit();
     return 0;
 }

@@ -81,11 +81,11 @@ void Controller::Handle_Thumbstick_Events()
 
     if (thumb_stick == RIGHTSTICK) {
 
-        float value = (((-1 * stick_coordinates[RIGHTSTICK].x + 32767) * 90) / 32767);
+        int value = (int) (((-1 * stick_coordinates[RIGHTSTICK].x + 32767) * 90) / 32767);
         this->driver_wish.set_right_servo(value);
 
     } else if (thumb_stick == LEFTSTICK) {
-        float value = (((-1 * stick_coordinates[LEFTSTICK].y + 32767) * 90) / 32767);
+        int value = (int)(((-1 * stick_coordinates[LEFTSTICK].y + 32767) * 90) / 32767);
         this->driver_wish.set_left_servo(value);
     }
 }

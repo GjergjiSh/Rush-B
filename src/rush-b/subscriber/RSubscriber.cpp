@@ -12,7 +12,7 @@ int32_t Subscriber::ZMQ_Init_Connection()
         this->zmq_sub_context = zmq::context_t(1);
         this->zmq_sub_socket = zmq::socket_t(this->zmq_sub_context, zmq::socket_type::sub);
         this->zmq_sub_socket.setsockopt(ZMQ_SUBSCRIBE, "CONTROLLER", 10);
-        this->zmq_sub_socket.setsockopt(ZMQ_SUBSCRIBE, "KEYBOARD", 10);
+        this->zmq_sub_socket.setsockopt(ZMQ_SUBSCRIBE, "KEYBOARD", 8);
         this->zmq_sub_socket.setsockopt(ZMQ_LINGER, 0);
         this->zmq_sub_socket.connect("tcp://" + this->zqm_sub_transport);
         cout << "[I] [ Rush-B -> Subscriber ] ZMQ Connection Successfuly Initialized - "

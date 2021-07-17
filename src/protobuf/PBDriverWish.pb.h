@@ -183,31 +183,31 @@ class PBDriverWish PROTOBUF_FINAL :
     kRightServoFieldNumber = 2,
     kTopServoFieldNumber = 3,
   };
-  // float left_servo = 1;
+  // int32 left_servo = 1;
   void clear_left_servo();
-  float left_servo() const;
-  void set_left_servo(float value);
+  ::PROTOBUF_NAMESPACE_ID::int32 left_servo() const;
+  void set_left_servo(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  float _internal_left_servo() const;
-  void _internal_set_left_servo(float value);
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_left_servo() const;
+  void _internal_set_left_servo(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // float right_servo = 2;
+  // int32 right_servo = 2;
   void clear_right_servo();
-  float right_servo() const;
-  void set_right_servo(float value);
+  ::PROTOBUF_NAMESPACE_ID::int32 right_servo() const;
+  void set_right_servo(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  float _internal_right_servo() const;
-  void _internal_set_right_servo(float value);
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_right_servo() const;
+  void _internal_set_right_servo(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // float top_servo = 3;
+  // int32 top_servo = 3;
   void clear_top_servo();
-  float top_servo() const;
-  void set_top_servo(float value);
+  ::PROTOBUF_NAMESPACE_ID::int32 top_servo() const;
+  void set_top_servo(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  float _internal_top_servo() const;
-  void _internal_set_top_servo(float value);
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_top_servo() const;
+  void _internal_set_top_servo(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:PBDriverWish.PBDriverWish)
@@ -217,9 +217,9 @@ class PBDriverWish PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  float left_servo_;
-  float right_servo_;
-  float top_servo_;
+  ::PROTOBUF_NAMESPACE_ID::int32 left_servo_;
+  ::PROTOBUF_NAMESPACE_ID::int32 right_servo_;
+  ::PROTOBUF_NAMESPACE_ID::int32 top_servo_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_PBDriverWish_2eproto;
 };
@@ -234,62 +234,62 @@ class PBDriverWish PROTOBUF_FINAL :
 #endif  // __GNUC__
 // PBDriverWish
 
-// float left_servo = 1;
+// int32 left_servo = 1;
 inline void PBDriverWish::clear_left_servo() {
   left_servo_ = 0;
 }
-inline float PBDriverWish::_internal_left_servo() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBDriverWish::_internal_left_servo() const {
   return left_servo_;
 }
-inline float PBDriverWish::left_servo() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBDriverWish::left_servo() const {
   // @@protoc_insertion_point(field_get:PBDriverWish.PBDriverWish.left_servo)
   return _internal_left_servo();
 }
-inline void PBDriverWish::_internal_set_left_servo(float value) {
+inline void PBDriverWish::_internal_set_left_servo(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
   left_servo_ = value;
 }
-inline void PBDriverWish::set_left_servo(float value) {
+inline void PBDriverWish::set_left_servo(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_left_servo(value);
   // @@protoc_insertion_point(field_set:PBDriverWish.PBDriverWish.left_servo)
 }
 
-// float right_servo = 2;
+// int32 right_servo = 2;
 inline void PBDriverWish::clear_right_servo() {
   right_servo_ = 0;
 }
-inline float PBDriverWish::_internal_right_servo() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBDriverWish::_internal_right_servo() const {
   return right_servo_;
 }
-inline float PBDriverWish::right_servo() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBDriverWish::right_servo() const {
   // @@protoc_insertion_point(field_get:PBDriverWish.PBDriverWish.right_servo)
   return _internal_right_servo();
 }
-inline void PBDriverWish::_internal_set_right_servo(float value) {
+inline void PBDriverWish::_internal_set_right_servo(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
   right_servo_ = value;
 }
-inline void PBDriverWish::set_right_servo(float value) {
+inline void PBDriverWish::set_right_servo(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_right_servo(value);
   // @@protoc_insertion_point(field_set:PBDriverWish.PBDriverWish.right_servo)
 }
 
-// float top_servo = 3;
+// int32 top_servo = 3;
 inline void PBDriverWish::clear_top_servo() {
   top_servo_ = 0;
 }
-inline float PBDriverWish::_internal_top_servo() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBDriverWish::_internal_top_servo() const {
   return top_servo_;
 }
-inline float PBDriverWish::top_servo() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBDriverWish::top_servo() const {
   // @@protoc_insertion_point(field_get:PBDriverWish.PBDriverWish.top_servo)
   return _internal_top_servo();
 }
-inline void PBDriverWish::_internal_set_top_servo(float value) {
+inline void PBDriverWish::_internal_set_top_servo(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
   top_servo_ = value;
 }
-inline void PBDriverWish::set_top_servo(float value) {
+inline void PBDriverWish::set_top_servo(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_top_servo(value);
   // @@protoc_insertion_point(field_set:PBDriverWish.PBDriverWish.top_servo)
 }

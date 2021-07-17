@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
         //Controlling Rush-B
         while (RUNNING) {
             if (control_center->Control_Robot() == 0) {
-                //control_center->controller.Print_Driver_Wish();
+                control_center->controller.Print_Driver_Wish();
             } else {
                 break;
             }

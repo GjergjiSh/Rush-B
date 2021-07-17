@@ -3,7 +3,7 @@ syntax = "proto3";
 package PBDriverWish;
 
 message PBDriverWish {
-    float left_servo = 1;
-    float right_servo = 2;
-    float top_servo = 3;
+    int32 left_servo = 1;
+    int32 right_servo = 2;
+    int32 top_servo = 3;
 }
