@@ -56,8 +56,8 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_PBDriverWish_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\022PBDriverWish.proto\022\014PBDriverWish\"J\n\014PB"
-  "DriverWish\022\022\n\nleft_servo\030\001 \001(\005\022\023\n\013right_"
-  "servo\030\002 \001(\005\022\021\n\ttop_servo\030\003 \001(\005b\006proto3"
+  "DriverWish\022\022\n\nleft_servo\030\001 \001(\002\022\023\n\013right_"
+  "servo\030\002 \001(\002\022\021\n\ttop_servo\030\003 \001(\002b\006proto3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_PBDriverWish_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_PBDriverWish_2eproto = {
@@ -143,25 +143,25 @@ const char* PBDriverWish::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_I
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // int32 left_servo = 1;
+      // float left_servo = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          left_servo_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 13)) {
+          left_servo_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else goto handle_unusual;
         continue;
-      // int32 right_servo = 2;
+      // float right_servo = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          right_servo_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 21)) {
+          right_servo_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else goto handle_unusual;
         continue;
-      // int32 top_servo = 3;
+      // float top_servo = 3;
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
-          top_servo_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 29)) {
+          top_servo_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else goto handle_unusual;
         continue;
       default: {
@@ -192,22 +192,22 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 left_servo = 1;
-  if (this->left_servo() != 0) {
+  // float left_servo = 1;
+  if (!(this->left_servo() <= 0 && this->left_servo() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_left_servo(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(1, this->_internal_left_servo(), target);
   }
 
-  // int32 right_servo = 2;
-  if (this->right_servo() != 0) {
+  // float right_servo = 2;
+  if (!(this->right_servo() <= 0 && this->right_servo() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_right_servo(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(2, this->_internal_right_servo(), target);
   }
 
-  // int32 top_servo = 3;
-  if (this->top_servo() != 0) {
+  // float top_servo = 3;
+  if (!(this->top_servo() <= 0 && this->top_servo() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_top_servo(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(3, this->_internal_top_servo(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -226,25 +226,19 @@ size_t PBDriverWish::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // int32 left_servo = 1;
-  if (this->left_servo() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_left_servo());
+  // float left_servo = 1;
+  if (!(this->left_servo() <= 0 && this->left_servo() >= 0)) {
+    total_size += 1 + 4;
   }
 
-  // int32 right_servo = 2;
-  if (this->right_servo() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_right_servo());
+  // float right_servo = 2;
+  if (!(this->right_servo() <= 0 && this->right_servo() >= 0)) {
+    total_size += 1 + 4;
   }
 
-  // int32 top_servo = 3;
-  if (this->top_servo() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_top_servo());
+  // float top_servo = 3;
+  if (!(this->top_servo() <= 0 && this->top_servo() >= 0)) {
+    total_size += 1 + 4;
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -278,13 +272,13 @@ void PBDriverWish::MergeFrom(const PBDriverWish& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.left_servo() != 0) {
+  if (!(from.left_servo() <= 0 && from.left_servo() >= 0)) {
     _internal_set_left_servo(from._internal_left_servo());
   }
-  if (from.right_servo() != 0) {
+  if (!(from.right_servo() <= 0 && from.right_servo() >= 0)) {
     _internal_set_right_servo(from._internal_right_servo());
   }
-  if (from.top_servo() != 0) {
+  if (!(from.top_servo() <= 0 && from.top_servo() >= 0)) {
     _internal_set_top_servo(from._internal_top_servo());
   }
 }
