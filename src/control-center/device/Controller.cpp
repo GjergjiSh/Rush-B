@@ -56,7 +56,7 @@ size_t Controller::Moved_Stick()
 }
 
 /*********************************************************************
-     * @brief Update DriverWish actions; Engine on/off, Gearshifts
+     * @brief Updates the values for the top servo
      ****************************************************************/
 void Controller::Handle_Button_Events()
 {
@@ -71,7 +71,7 @@ void Controller::Handle_Button_Events()
 }
 
 /***************************************************************************
-     * @brief Updates the Acceleration, Brake and Steering values
+     * @brief Updates the Values for the left and righ servo commands
      * @note: The Linux/Joystick API is somewhat counter-intuitive. Positive
      *        coordinates traslate to downwards movement and vice-versa.
      ***********************************************************************/
@@ -80,13 +80,10 @@ void Controller::Handle_Thumbstick_Events()
     size_t thumb_stick = Moved_Stick();
 
     if (thumb_stick == RIGHTSTICK) {
-
-        float value = (((-1 * stick_coordinates[RIGHTSTICK].x + 32767) * 90) / 32767);
-        this->driver_wish.set_right_servo(value);
+        this->driver_wish.set_right_servo((int)(((-1 * stick_coordinates[RIGHTSTICK].x + 32767) * 90) / 32767));
 
     } else if (thumb_stick == LEFTSTICK) {
-        float value = (((-1 * stick_coordinates[LEFTSTICK].y + 32767) * 90) / 32767);
-        this->driver_wish.set_left_servo(value);
+        this->driver_wish.set_left_servo((int)(((-1 * stick_coordinates[LEFTSTICK].y + 32767) * 90) / 32767));
     }
 }
 
