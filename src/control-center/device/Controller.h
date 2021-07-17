@@ -25,8 +25,7 @@ public:
     size_t Moved_Stick();
     void Handle_Button_Events();
     void Handle_Thumbstick_Events();
-    void Process_Input();
-    void Start_Thread();
+    int32_t Process_Input();
     int32_t Initialize_Device();
     void Print_Driver_Wish();
 
