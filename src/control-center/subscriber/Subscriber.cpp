@@ -16,11 +16,8 @@ int32_t Subscriber::Subscribe_To_Video()
 int32_t Subscriber::Unsubscribe_From_Video()
 {
     int32_t status = 0;
-    if (this->video_thread.joinable())
-    {
-        status = this->video_subscriber.Destroy_Pipeline();
-        this->video_thread.join();
-    }
+    this->video_thread.detach();
+    status = this->video_subscriber.Destroy_Pipeline();
     return status;
 }
 
