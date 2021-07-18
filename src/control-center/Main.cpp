@@ -29,5 +29,6 @@ int main(int argc, char* argv[])
 
     //Exit
     control_center->Deinit();
-    return 0;
+    google::protobuf::ShutdownProtobufLibrary();
+    exit(0);
 }

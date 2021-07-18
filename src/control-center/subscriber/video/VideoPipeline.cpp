@@ -50,105 +50,118 @@ static void Pad_Callback(GstElement* element, GstPad* pad, gpointer data)
     g_free(name);
 }
 
-int32_t VideoSubscriber::Construct_Pipeline(const char* name, tVideoPipeline* const pipeline)
+int32_t VideoSubscriber::Construct_Pipeline()
 {
-    //Init Gstreamer
     gst_init(NULL, NULL);
+    this->pipeline = new tVideoPipeline();
+    int32_t status = 0;
+    status = Create_Elements();
+    if (status == 0) status = Configure_Elements();
+    if (status == 0) status = Link_Elements();
+    if (status == 0) g_print("[I] [ Control-Center -> VideoPipeline ] Video Pipeline successfuly constructed\n");
+    return status;
+}
 
-    //Create Elements
-    pipeline->udpsrc = gst_element_factory_make("udpsrc", NULL);
-    g_object_set(pipeline->udpsrc, "port", port, NULL);
+int32_t VideoSubscriber::Create_Elements()
+{
+    this->pipeline->pipe = gst_pipeline_new("Subscriber Video Pipeline");
+    this->pipeline->udpsrc = gst_element_factory_make("udpsrc", NULL);
+    this->pipeline->filter = gst_element_factory_make("capsfilter", NULL);
+    this->pipeline->rtph264depay = gst_element_factory_make("rtph264depay", NULL);
+    this->pipeline->decodebin = gst_element_factory_make("decodebin", NULL);
+    this->pipeline->videoconvert = gst_element_factory_make("videoconvert", NULL);
+    this->pipeline->queue = gst_element_factory_make("queue", NULL);
+    this->pipeline->autovideosink = gst_element_factory_make("autovideosink", NULL);
 
-    //Init the caps for the filter
+    if (!pipeline->pipe ||
+        !this->pipeline->udpsrc ||
+        !this->pipeline->filter ||
+        !this->pipeline->rtph264depay ||
+        !this->pipeline->decodebin ||
+        !this->pipeline->videoconvert ||
+        !this->pipeline->queue ||
+        !this->pipeline->autovideosink) {
+        g_printerr("Not all elements could be created.\n");
+        return -1;
+    }
+
+    //Add elements to the Pipeline
+    gst_bin_add_many(GST_BIN(this->pipeline->pipe),
+        this->pipeline->udpsrc,
+        this->pipeline->filter,
+        this->pipeline->rtph264depay,
+        this->pipeline->decodebin,
+        this->pipeline->videoconvert,
+        this->pipeline->queue,
+        this->pipeline->autovideosink, NULL);
+
+    return 0;
+}
+
+int32_t VideoSubscriber::Configure_Elements()
+{
     GstCaps* caps = gst_caps_new_simple("application/x-rtp",
         "media", G_TYPE_STRING, "video",
         "clock-rate", G_TYPE_INT, 90000,
         "encoding-name", G_TYPE_STRING, "H264",
         "payload", G_TYPE_INT, 96, NULL);
 
-    pipeline->filter = gst_element_factory_make("capsfilter", "filter");
-    g_object_set(G_OBJECT(pipeline->filter), "caps", caps, NULL);
+    g_object_set(G_OBJECT(this->pipeline->filter), "caps", caps, NULL);
     gst_caps_unref(caps);
 
-    pipeline->rtph264depay = gst_element_factory_make("rtph264depay", NULL);
-    pipeline->decodebin = gst_element_factory_make("decodebin", NULL);
-    pipeline->videoconvert = gst_element_factory_make("videoconvert", NULL);
-    pipeline->queue = gst_element_factory_make("queue", NULL);
-    pipeline->autovideosink = gst_element_factory_make("autovideosink", NULL);
-
-    //Create Empty Pipeline
-    pipeline->pipe = gst_pipeline_new(name);
-
-    if (!pipeline->pipe || !pipeline->udpsrc || !pipeline->filter || !pipeline->rtph264depay || !pipeline->decodebin || !pipeline->videoconvert || !pipeline->queue || !pipeline->autovideosink) {
-        g_printerr("Not all elements could be created.\n");
-        return -1;
-    }
-
-    //Add elements to the Pipeline
-    gst_bin_add_many(GST_BIN(pipeline->pipe),
-        pipeline->udpsrc,
-        pipeline->filter,
-        pipeline->rtph264depay,
-        pipeline->decodebin,
-        pipeline->videoconvert, NULL);
-
-    //Link udpsrc through to decode bin
-    if (gst_element_link_many(
-            pipeline->udpsrc,
-            pipeline->filter,
-            pipeline->rtph264depay,
-            pipeline->decodebin, NULL)
-        != TRUE) {
-        g_printerr("[E] [ Control-Center -> VideoPipeline ] Elements could not be linked.\n");
-        gst_object_unref(pipeline->pipe);
-        return -1;
-    }
-
-    //Callback used to link decode bin and autovideo sink
-    g_signal_connect(pipeline->decodebin, "pad-added", G_CALLBACK(Pad_Callback), pipeline->videoconvert);
-
-    //Add and link the sink to the videoconverter
-    gst_bin_add_many(GST_BIN(pipeline->pipe),
-        pipeline->queue,
-        pipeline->autovideosink, NULL);
-
-    if (gst_element_link_many(
-            pipeline->videoconvert,
-            pipeline->queue,
-            pipeline->autovideosink, NULL)
-        != TRUE) {
-        g_printerr("[E] [ Control-Center -> VideoPipeline ] Elements could not be linked.\n");
-        gst_object_unref(pipeline->pipe);
-        return -1;
-    }
-
-    //Register Bus Message Callback
-    GstBus* bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline->pipe));
+    //Register Callbacks
+    g_signal_connect(this->pipeline->decodebin, "pad-added", G_CALLBACK(Pad_Callback), this->pipeline->videoconvert);
+    GstBus* bus = gst_pipeline_get_bus(GST_PIPELINE(this->pipeline->pipe));
     gst_bus_add_signal_watch(bus);
-    g_signal_connect(bus, "message", (GCallback)Bus_Message_Callback, pipeline->pipe);
+    g_signal_connect(bus, "message", (GCallback)Bus_Message_Callback, this->pipeline->pipe);
 
+    return 0;
+}
+
+int32_t VideoSubscriber::Link_Elements()
+{
+    //Link udpsrc through to decode bin
+    if (!gst_element_link_many(
+            this->pipeline->udpsrc,
+            this->pipeline->filter,
+            this->pipeline->rtph264depay,
+            this->pipeline->decodebin, NULL)) {
+        g_printerr("[E] [ Control-Center -> VideoPipeline ] Elements could not be linked.\n");
+        gst_object_unref(this->pipeline->pipe);
+        return -1;
+    }
+    //Decode bin and videoconvert are linked by the Pad Callback
+    //Link videoconver through to videosink
+    if (!gst_element_link_many(
+            this->pipeline->videoconvert,
+            this->pipeline->queue,
+            this->pipeline->autovideosink, NULL)) {
+        g_printerr("[E] [ Control-Center -> VideoPipeline ] Elements could not be linked.\n");
+        gst_object_unref(pipeline->pipe);
+        return -1;
+    }
     return 0;
 }
 
 int32_t VideoSubscriber::Destroy_Pipeline()
 {
-    gst_element_set_state(this->pipeline.pipe, GST_STATE_NULL);
+    gst_element_set_state(this->pipeline->pipe, GST_STATE_NULL);
+    g_object_unref(this->pipeline->pipe);
     printf("[I] [ Control-Center -> VideoPipeline ] Subscriber Video Pipeline destroyed\n");
-    //memset(pipeline, 0, sizeof(tVideoPipeline));
+    memset(this->pipeline, 0, sizeof(tVideoPipeline));
     return 0;
 }
 
 int32_t VideoSubscriber::Set_Pipeline_State_Playing()
 {
     //Set State to playing
-    GstStateChangeReturn ret = gst_element_set_state(pipeline.pipe, GST_STATE_PLAYING);
+    GstStateChangeReturn ret = gst_element_set_state(this->pipeline->pipe, GST_STATE_PLAYING);
     if (ret == GST_STATE_CHANGE_FAILURE) {
         g_printerr("[E] [ Control-Center -> VideoPipeline ] Unable to set the pipeline to the playing state.\n");
-        gst_object_unref(pipeline.pipe);
+        gst_object_unref(this->pipeline->pipe);
         return -1;
-    } else {
-         g_print("[I] [ Control-Center -> VideoPipeline ] Subscriber Video Pipeline set to playing\n");
     }
+    g_print("[I] [ Control-Center -> VideoPipeline ] Subscriber Video Pipeline set to playing\n");
     return 0;
 }
 
