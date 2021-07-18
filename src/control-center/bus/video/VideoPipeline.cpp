@@ -1,7 +1,7 @@
 #include "VideoPipeline.h"
 
-VideoSubscriber::VideoSubscriber() { }
-VideoSubscriber::~VideoSubscriber() { }
+VideoPipeline::VideoPipeline() { }
+VideoPipeline::~VideoPipeline() { }
 
 static GstBusSyncReply Bus_Message_Callback(GstBus* bus, GstMessage* message, gpointer pipeline)
 {
@@ -11,7 +11,7 @@ static GstBusSyncReply Bus_Message_Callback(GstBus* bus, GstMessage* message, gp
         GError* error;
         gst_message_parse_error(message, &error, &debug);
         g_free(debug);
-        g_printerr("[E] [ Control-Center -> VideoPipeline ] %s\n", error->message);
+        g_printerr("[E] [ Bus : VideoPipeline ] %s\n", error->message);
         g_error_free(error);
         break;
 
@@ -35,7 +35,7 @@ static void Pad_Callback(GstElement* element, GstPad* pad, gpointer data)
     GstElement* video_convert;
 
     name = gst_pad_get_name(pad);
-    g_print("[I] [ Control-Center -> VideoPipeline ] A new pad %s was created\n", name);
+    g_print("[I] [ Bus : VideoPipeline ] A new pad %s was created\n", name);
 
     caps = gst_pad_get_pad_template_caps(pad);
     description = gst_caps_to_string(caps);
@@ -44,13 +44,13 @@ static void Pad_Callback(GstElement* element, GstPad* pad, gpointer data)
     video_convert = GST_ELEMENT(data);
 
     if (!gst_element_link_pads(element, name, video_convert, "sink")) {
-        g_printerr("[E] [ Control-Center -> VideoPipeline ] Failed to link elements 3\n");
+        g_printerr("[E] [ Bus : VideoPipeline ] Failed to link decidebin and autoconvert \n");
     }
 
     g_free(name);
 }
 
-int32_t VideoSubscriber::Construct_Pipeline()
+int32_t VideoPipeline::Construct_Pipeline()
 {
     gst_init(NULL, NULL);
     this->pipeline = new tVideoPipeline();
@@ -58,11 +58,11 @@ int32_t VideoSubscriber::Construct_Pipeline()
     status = Create_Elements();
     if (status == 0) status = Configure_Elements();
     if (status == 0) status = Link_Elements();
-    if (status == 0) g_print("[I] [ Control-Center -> VideoPipeline ] Video Pipeline successfuly constructed\n");
+    if (status == 0) g_print("[I] [ Bus : VideoPipeline ] Video Pipeline successfuly constructed\n");
     return status;
 }
 
-int32_t VideoSubscriber::Create_Elements()
+int32_t VideoPipeline::Create_Elements()
 {
     this->pipeline->pipe = gst_pipeline_new("Subscriber Video Pipeline");
     this->pipeline->udpsrc = gst_element_factory_make("udpsrc", NULL);
@@ -81,7 +81,7 @@ int32_t VideoSubscriber::Create_Elements()
         !this->pipeline->videoconvert ||
         !this->pipeline->queue ||
         !this->pipeline->autovideosink) {
-        g_printerr("Not all elements could be created.\n");
+        g_printerr("[I] [ Bus : VideoPipeline ] Failed to create all pipeline elements\n");
         return -1;
     }
 
@@ -98,7 +98,7 @@ int32_t VideoSubscriber::Create_Elements()
     return 0;
 }
 
-int32_t VideoSubscriber::Configure_Elements()
+int32_t VideoPipeline::Configure_Elements()
 {
     GstCaps* caps = gst_caps_new_simple("application/x-rtp",
         "media", G_TYPE_STRING, "video",
@@ -106,6 +106,7 @@ int32_t VideoSubscriber::Configure_Elements()
         "encoding-name", G_TYPE_STRING, "H264",
         "payload", G_TYPE_INT, 96, NULL);
 
+    g_object_set(G_OBJECT(this->pipeline->udpsrc), "port", port, NULL);
     g_object_set(G_OBJECT(this->pipeline->filter), "caps", caps, NULL);
     gst_caps_unref(caps);
 
@@ -118,7 +119,7 @@ int32_t VideoSubscriber::Configure_Elements()
     return 0;
 }
 
-int32_t VideoSubscriber::Link_Elements()
+int32_t VideoPipeline::Link_Elements()
 {
     //Link udpsrc through to decode bin
     if (!gst_element_link_many(
@@ -126,48 +127,50 @@ int32_t VideoSubscriber::Link_Elements()
             this->pipeline->filter,
             this->pipeline->rtph264depay,
             this->pipeline->decodebin, NULL)) {
-        g_printerr("[E] [ Control-Center -> VideoPipeline ] Elements could not be linked.\n");
+        g_printerr("[E] [ Bus -> VideoPipeline ] Failed to link first branch of pipeline elements.\n");
         gst_object_unref(this->pipeline->pipe);
         return -1;
     }
     //Decode bin and videoconvert are linked by the Pad Callback
-    //Link videoconver through to videosink
+    //Link videoconvert through to videosink
     if (!gst_element_link_many(
             this->pipeline->videoconvert,
             this->pipeline->queue,
             this->pipeline->autovideosink, NULL)) {
-        g_printerr("[E] [ Control-Center -> VideoPipeline ] Elements could not be linked.\n");
+        g_printerr("[E] [ Bus : VideoPipeline ] Failed to link second branch of pipeline elements.\n");
         gst_object_unref(pipeline->pipe);
         return -1;
     }
     return 0;
 }
 
-int32_t VideoSubscriber::Destroy_Pipeline()
+int32_t VideoPipeline::Destroy_Pipeline()
 {
     gst_element_set_state(this->pipeline->pipe, GST_STATE_NULL);
     g_object_unref(this->pipeline->pipe);
-    printf("[I] [ Control-Center -> VideoPipeline ] Subscriber Video Pipeline destroyed\n");
+    printf("[I] [ Bus : VideoPipeline ] Subscriber Video Pipeline destroyed\n");
     memset(this->pipeline, 0, sizeof(tVideoPipeline));
     return 0;
 }
 
-int32_t VideoSubscriber::Set_Pipeline_State_Playing()
+int32_t VideoPipeline::Set_Pipeline_State_Playing()
 {
     //Set State to playing
     GstStateChangeReturn ret = gst_element_set_state(this->pipeline->pipe, GST_STATE_PLAYING);
     if (ret == GST_STATE_CHANGE_FAILURE) {
-        g_printerr("[E] [ Control-Center -> VideoPipeline ] Unable to set the pipeline to the playing state.\n");
+        g_printerr("[E] [ Bus -> VideoPipeline ] Unable to set the pipeline to the playing state.\n");
         gst_object_unref(this->pipeline->pipe);
         return -1;
     }
-    g_print("[I] [ Control-Center -> VideoPipeline ] Subscriber Video Pipeline set to playing\n");
+    g_print("[I] [ Bus -> VideoPipeline ] Subscriber Video Pipeline set to playing\n");
     return 0;
 }
 
-void VideoSubscriber::Start_Gloop()
+void VideoPipeline::Start_Gloop()
 {
     //Start the the main loop
     loop = g_main_loop_new(NULL, FALSE);
-    g_main_loop_run(loop);
+    this->video_thread = std::thread(g_main_loop_run, loop);
+    this->video_thread.detach();
 }
+
