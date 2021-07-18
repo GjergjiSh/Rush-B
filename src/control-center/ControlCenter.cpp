@@ -87,5 +87,6 @@ int32_t ControlCenter::Control_Robot()
 
     int32_t z_status = this->publisher->ZMQ_Send("CONTROLLER", driver_wish);
 
+    usleep(10000);
     return s_status + z_status + dev_status;
 }
