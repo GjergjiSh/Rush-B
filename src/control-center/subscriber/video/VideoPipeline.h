@@ -35,13 +35,16 @@ class VideoSubscriber {
 public:
     VideoSubscriber();
     ~VideoSubscriber();
-    int32_t Construct_Pipeline(const char* name, tVideoPipeline* const pipeline);
+    int32_t Construct_Pipeline();
+    int32_t Create_Elements();
+    int32_t Configure_Elements();
+    int32_t Link_Elements();
     int32_t Destroy_Pipeline();
     int32_t Set_Pipeline_State_Playing();
     void Start_Gloop();
 
     int32_t port;
-    tVideoPipeline pipeline = { 0 };
+    tVideoPipeline* pipeline;
     GMainLoop* loop;
 };
 

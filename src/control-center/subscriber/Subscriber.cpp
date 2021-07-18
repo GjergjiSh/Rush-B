@@ -5,7 +5,7 @@ Subscriber::~Subscriber() {};
 
 int32_t Subscriber::Subscribe_To_Video()
 {
-    if (this->video_subscriber.Construct_Pipeline("Control Center Video Pipeline", &this->video_subscriber.pipeline) == 0) {
+    if (this->video_subscriber.Construct_Pipeline() == 0) {
         int32_t pipeline_status = this->video_subscriber.Set_Pipeline_State_Playing();
         if (pipeline_status == 0) this->video_thread = std::thread(&VideoSubscriber::Start_Gloop, this->video_subscriber);
         return pipeline_status;

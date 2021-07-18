@@ -50,7 +50,7 @@ int32_t ControlCenter::Init()
 int32_t ControlCenter::Deinit()
 {
     int32_t deinit_zmq_status = this->publisher->ZMQ_Deinit_Connection();
-    int32_t unsub_video_status = 0; this->subscriber->Unsubscribe_From_Video();
+    int32_t unsub_video_status = this->subscriber->Unsubscribe_From_Video();
 
     if (deinit_zmq_status + unsub_video_status == 0)
     {
