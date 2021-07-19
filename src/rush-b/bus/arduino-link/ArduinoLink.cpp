@@ -9,9 +9,9 @@ int32_t ArduinoLink::Init_Serial_Port(std::string port)
         this->serial_port = new SerialPort(port, BaudRate::B_460800);
         this->serial_port->SetTimeout(-1);
         this->serial_port->Open();
-        std::cout << "[I] [ Rush-B -> ArduinoLink] Arduino board connected on port: " << port << std::endl;
+        ALOG_INFO("Arduino board connected on port: " + port);
     } catch (mn::CppLinuxSerial::Exception& ex) {
-        std::cerr << "[E] [ Rush-B -> ArduinoLink ] Connection to Arduino failed to initialize." << ex.what() << std::endl;
+        ALOG_ERROR("Connection to Arduino failed to initialize." , ex.what());
         return -1;
     }
     return 0;
@@ -21,9 +21,9 @@ int32_t ArduinoLink::Deinit_Serial_Port()
 {
     try {
         this->serial_port->Close();
-        std::cout << "[I] [ Rush-B -> ArduinoLink] Connection to Arduino deinitialized " << std::endl;
+        ALOG_INFO("Connection to Arduino deinitialized")
     } catch (mn::CppLinuxSerial::Exception& ex) {
-        std::cerr << "[E] [ Rush-B -> ArduinoLink ] Connection to Arduino failed to deinitialize." << ex.what() << std::endl;
+        ALOG_ERROR("ArduinoLink ] Connection to Arduino failed to deinitialize", ex.what());
         return -1;
     }
     return 0;
@@ -42,7 +42,7 @@ int32_t ArduinoLink::Write_To_Port(PBDriverWish::PBDriverWish driver_wish)
         this->serial_port->Write("!" + s_driver_wish + "\n");
 
     } catch (mn::CppLinuxSerial::Exception& ex) {
-        std::cerr << "[E] [ Rush-B -> ArduinoLink ] Failed to write driver wishes to the robot." << ex.what() << std::endl;
+        ALOG_ERROR("Failed to write driver wishes to the robot.", ex.what());
         return -1;
     }
     return 0;

@@ -40,8 +40,8 @@ typedef struct
 class VideoPipeline {
 
 public:
-    VideoPipeline();
-    ~VideoPipeline();
+    VideoPipeline() = default;
+    ~VideoPipeline() = default;
     int32_t Construct_Pipeline();
     int32_t Create_Elements();
     int32_t Configure_Elements();

@@ -1,9 +1,12 @@
 #ifndef RUSHB_H
 #define RUSHB_H
 
-#include "RSubscriber.h"
-#include "RPublisher.h"
-#include "ArduinoLink.h"
+#define DRAW_LINE                                                                                    \
+    std::cout << " ================================================================= " << std::endl; \
+    std::cout << " ----------------------------|  Rush B  |------------------------- " << std::endl; \
+    std::cout << " ================================================================= " << std::endl;
+
+#include "RBus.h"
 
 class RushB {
 
@@ -15,8 +18,7 @@ public:
     int32_t Deinit();
     int32_t Control_Robot();
 
-    Subscriber* subscriber;
-    Publisher* publisher;
+    Bus bus;
 };
 
 #endif //RUSHB_H

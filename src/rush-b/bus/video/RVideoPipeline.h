@@ -37,16 +37,20 @@ typedef struct
     tVideoPipelineParam parameters;
 } tVideoPipeline;
 
-class VideoPublisher {
+class VideoPipeline {
 
 public:
-    VideoPublisher();
-    ~VideoPublisher();
-    int32_t Construct_Pipeline(const char* name, tVideoPipeline* const pipeline);
+    VideoPipeline() = default;
+    ~VideoPipeline() = default;
+    int32_t Construct_Pipeline();
+    int32_t Create_Elements();
+    int32_t Configure_Elements();
+    int32_t Link_Elements();
     int32_t Destroy_Pipeline();
     int32_t Set_Pipeline_State_Playing();
 
-    tVideoPipeline pipeline;
+    tVideoPipelineParam* pipeline_parameters;
+    tVideoPipeline* pipeline;
 };
 
 #endif /* R_VIDEOPIPELINE_H */

@@ -28,8 +28,6 @@ void loop()
   if (Serial.available()) {
     read_driver_wish();
     control_servos();
-  } else {
-    stop_servos();
   }
 }
 

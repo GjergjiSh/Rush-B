@@ -1,8 +1,5 @@
 #include "VideoPipeline.h"
 
-VideoPipeline::VideoPipeline() { }
-VideoPipeline::~VideoPipeline() { }
-
 static GstBusSyncReply Bus_Message_Callback(GstBus* bus, GstMessage* message, gpointer pipeline)
 {
     switch (GST_MESSAGE_TYPE(message)) {
@@ -52,9 +49,10 @@ static void Pad_Callback(GstElement* element, GstPad* pad, gpointer data)
 
 int32_t VideoPipeline::Construct_Pipeline()
 {
-    gst_init(NULL, NULL);
     this->pipeline = new tVideoPipeline();
     int32_t status = 0;
+
+    gst_init(NULL, NULL);
     status = Create_Elements();
     if (status == 0) status = Configure_Elements();
     if (status == 0) status = Link_Elements();

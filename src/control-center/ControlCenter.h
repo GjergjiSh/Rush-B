@@ -1,9 +1,15 @@
 #ifndef CONTROLCENTER_H
 #define CONTROLCENTER_H
 
+#define DRAW_LINE                                                                                    \
+    std::cout << " ================================================================= " << std::endl; \
+    std::cout << " -----------------------|   Control Center  |--------------------- " << std::endl; \
+    std::cout << " ================================================================= " << std::endl;
+
 #include "Controller.h"
 #include "Keyboard.h"
 #include "Bus.h"
+
 
 #define CONTROLLER 1
 #define KEYBOARD 2

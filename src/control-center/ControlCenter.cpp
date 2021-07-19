@@ -20,7 +20,7 @@ int32_t ControlCenter::Init()
         this->controller.device_path = "/dev/input/by-id/usb-Inno_GamePad.._Inno_GamePad.._0000001-joystick";
         this->active_device = CONTROLLER;
         this->bus.udp_transport = 5000;
-        this->bus.zmq_pipeline.tcp_transport = "127.0.0.1:5001";
+        this->bus.zmq_pipeline.tcp_transport = "0.0.0.0:5001";
         this->bus.zmq_pipeline.ipc_interface_transport = "interfacetransport";
         this->bus.zmq_pipeline.ipc_device_transport = "devicetransport";
     }

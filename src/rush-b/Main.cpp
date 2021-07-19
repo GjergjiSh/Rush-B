@@ -3,6 +3,8 @@
 
 int main(int argc, char* argv[])
 {
+    DRAW_LINE //Entry (ArduinoLink, VideoPipeline and ZMQ Connection)
+    RushB* rush_b = new RushB();
 
     //Setting up Signal Handler
     struct sigaction action;
@@ -11,11 +13,7 @@ int main(int argc, char* argv[])
     action.sa_flags = 0;
     sigaction(SIGINT, &action, NULL);
 
-    //Entry (ArduinoLink, VideoPipeline and ZMQ Connection)
-    RushB* rush_b = new RushB();
-
     if (rush_b->Init() == 0) {
-
         //Controlling Robot movement
         while (RUNNING) {
 
@@ -23,8 +21,8 @@ int main(int argc, char* argv[])
             if (status != 0) break;
         }
     }
-
     //Exit
     rush_b->Deinit();
-    return 0;
+    google::protobuf::ShutdownProtobufLibrary();
+    exit(0);
 }

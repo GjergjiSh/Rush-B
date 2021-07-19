@@ -6,6 +6,13 @@
 #include <CppLinuxSerial/SerialPort.hpp>
 #include <string>
 
+#define ALOG_INFO(msg) \
+    std::cout << "[I] [ Bus : Arduino-Link ] " << msg << std::endl;
+#define ALOG_WARNING(msg) \
+    std::cerr << "[W] [ Bus : Arduino-Link ] " << msg << std::endl;
+#define ALOG_ERROR(msg, err) \
+    std::cerr << "[E] [ Bus : Arduino-Link ] " << msg << " " << err << std::endl;
+
 using namespace mn::CppLinuxSerial;
 
 class ArduinoLink

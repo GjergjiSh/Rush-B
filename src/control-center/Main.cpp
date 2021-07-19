@@ -3,7 +3,7 @@
 
 int main(int argc, char* argv[])
 {
-    //Entry (Init Devices, VideoPipelines and ZMQ Connection)
+    DRAW_LINE //Entry (Init Devices, VideoPipelines and ZMQ Connection)
     ControlCenter* control_center = new ControlCenter();
 
     //Setting up Signal Handler
