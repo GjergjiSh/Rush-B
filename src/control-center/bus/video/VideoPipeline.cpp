@@ -127,7 +127,7 @@ int32_t VideoPipeline::Link_Elements()
             this->pipeline->filter,
             this->pipeline->rtph264depay,
             this->pipeline->decodebin, NULL)) {
-        g_printerr("[E] [ Bus -> VideoPipeline ] Failed to link first branch of pipeline elements.\n");
+        g_printerr("[E] [ Bus : VideoPipeline ] Failed to link first branch of pipeline elements.\n");
         gst_object_unref(this->pipeline->pipe);
         return -1;
     }
@@ -158,11 +158,11 @@ int32_t VideoPipeline::Set_Pipeline_State_Playing()
     //Set State to playing
     GstStateChangeReturn ret = gst_element_set_state(this->pipeline->pipe, GST_STATE_PLAYING);
     if (ret == GST_STATE_CHANGE_FAILURE) {
-        g_printerr("[E] [ Bus -> VideoPipeline ] Unable to set the pipeline to the playing state.\n");
+        g_printerr("[E] [ Bus : VideoPipeline ] Unable to set the pipeline to the playing state.\n");
         gst_object_unref(this->pipeline->pipe);
         return -1;
     }
-    g_print("[I] [ Bus -> VideoPipeline ] Subscriber Video Pipeline set to playing\n");
+    g_print("[I] [ Bus : VideoPipeline ] Subscriber Video Pipeline set to playing\n");
     return 0;
 }
 
