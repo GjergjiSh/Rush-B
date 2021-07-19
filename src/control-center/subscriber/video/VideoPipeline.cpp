@@ -106,6 +106,7 @@ int32_t VideoSubscriber::Configure_Elements()
         "encoding-name", G_TYPE_STRING, "H264",
         "payload", G_TYPE_INT, 96, NULL);
 
+    g_object_set(G_OBJECT(this->pipeline->udpsrc), "port", port, NULL);
     g_object_set(G_OBJECT(this->pipeline->filter), "caps", caps, NULL);
     gst_caps_unref(caps);
 
