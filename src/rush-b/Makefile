@@ -6,7 +6,11 @@ PRJ_PATH = -I./publisher/arduino-link/ \
            -I../protobuf \
            -I./subscriber \
            -I./publisher \
-           -I.
+           -I. \
+			-I/usr/lib64/glib-2.0/include\
+			-I/usr/lib/arm-linux-gnueabihf/glib-2.0/include/ \
+			-I/usr/local/include/zmqpp \
+
 
 OBJ_PATH = ./obj
 
@@ -16,7 +20,7 @@ POST_BUILD = @mv
 
 OBJ_PRJ = $(OBJ_PATH)/VideoPipeline.o $(OBJ_PATH)/Publisher.o $(OBJ_PATH)/Subscriber.o $(OBJ_PATH)/RushB.o $(OBJ_PATH)/Main.o $(OBJ_PATH)/PBDriverWish.o $(OBJ_PATH)/ArduinoLink.o
 
-CC = g++ -std=c++17 -static-libgcc -static-libstdc++ -fPIC $(PRJ_PATH) -m64 -msse2 -Wall -O2 -Wno-comment -Wno-deprecated-declarations -pthread -c
+CC = g++ -std=c++17 -static-libgcc -static-libstdc++ -fPIC $(PRJ_PATH) -Wall -O2 -Wno-comment -Wno-deprecated-declarations -pthread -c
 
 LD = g++ -static-libgcc -static-libstdc++ -m64 -Wall -Wl,--copy-dt-needed-entries
 
