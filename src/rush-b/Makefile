@@ -6,7 +6,11 @@ PRJ_PATH = -I./bus/arduino-link/ \
 		   -I/usr/include/glib-2.0 \
 		   -I/usr/lib/x86_64-linux-gnu/glib-2.0/include \
            -I../protobuf \
-           -I.
+           -I. \
+			-I/usr/lib64/glib-2.0/include\
+			-I/usr/lib/arm-linux-gnueabihf/glib-2.0/include/ \
+			-I/usr/local/include/zmqpp \
+
 
 OBJ_PATH = ./obj
 
@@ -16,9 +20,9 @@ POST_BUILD = @mv
 
 OBJ_PRJ = $(OBJ_PATH)/Bus.o $(OBJ_PATH)/ZMQPipeline.o $(OBJ_PATH)/VideoPipeline.o $(OBJ_PATH)/RushB.o $(OBJ_PATH)/Main.o $(OBJ_PATH)/PBDriverWish.o $(OBJ_PATH)/ArduinoLink.o
 
-CC = g++ -std=c++17 -static-libgcc -static-libstdc++ -fPIC $(PRJ_PATH) -m64 -msse2 -Wall -O2 -Wno-comment -Wno-deprecated-declarations -pthread -c
+CC = g++ -std=c++17 -static-libgcc -static-libstdc++ -fPIC $(PRJ_PATH) -Wall -O2 -Wno-comment -Wno-deprecated-declarations -pthread -c
 
-LD = g++ -static-libgcc -static-libstdc++ -m64 -Wall -Wl,--copy-dt-needed-entries
+LD = g++ -static-libgcc -static-libstdc++ -Wall -Wl,--copy-dt-needed-entries
 
 LIB_PRJ = -lzmq -lprotobuf -lgstreamer-1.0 -lgobject-2.0 -lglib-2.0 -lgstapp-1.0 -ldl -lpthread -lCppLinuxSerial
 

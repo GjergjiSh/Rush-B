@@ -76,7 +76,7 @@ int32_t VideoPipeline::Destroy_Pipeline()
     gst_element_set_state(this->pipeline->pipe, GST_STATE_NULL);
     gst_object_unref(GST_OBJECT(this->pipeline->pipe));
     g_print("[I] [ Bus : VideoPipeline ] Publisher Video Pipeline Destroyed\n");
-    memset(this->pipeline, 0, sizeof(tVideoPipeline));
+    //memset(this->pipeline, 0, sizeof(tVideoPipeline));
     return 0;
 }
 

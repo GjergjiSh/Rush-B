@@ -11,19 +11,20 @@
 
 #define RUNNING (!do_shutdown && !shutdown_requested.load())
 
-namespace {
-
-volatile sig_atomic_t do_shutdown = 0;
-std::atomic<bool> shutdown_requested = false;
-static_assert(std::atomic<bool>::is_always_lock_free);
+static volatile int s_interrupted = 0;
+static void s_signal_handler(int signal_value)
+{
+    s_interrupted = 1;
 }
 
-void Signal_Handler(int /*signum*/)
+static void s_catch_signals(void)
 {
-    do_shutdown = 1;
-    shutdown_requested = true;
-    std::cout << "[I] [ Control-Center -> Sighandler ] Received Interrupt Signal, Exiting Cleanly \n"
-              << std::endl;
+    struct sigaction action;
+    action.sa_handler = s_signal_handler;
+    action.sa_flags = 0;
+    sigemptyset(&action.sa_mask);
+    sigaction(SIGINT, &action, NULL);
+    sigaction(SIGTERM, &action, NULL);
 }
 
 #endif /* SIGHANDLER_H */
