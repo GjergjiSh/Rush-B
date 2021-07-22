@@ -22,7 +22,7 @@ OBJ_PRJ = $(OBJ_PATH)/VideoPipeline.o $(OBJ_PATH)/Publisher.o $(OBJ_PATH)/Subscr
 
 CC = g++ -std=c++17 -static-libgcc -static-libstdc++ -fPIC $(PRJ_PATH) -Wall -O2 -Wno-comment -Wno-deprecated-declarations -pthread -c
 
-LD = g++ -static-libgcc -static-libstdc++ -m64 -Wall -Wl,--copy-dt-needed-entries
+LD = g++ -static-libgcc -static-libstdc++ -Wall -Wl,--copy-dt-needed-entries
 
 LIB_PRJ = -lzmq -lprotobuf -lgstreamer-1.0 -lgobject-2.0 -lglib-2.0 -lgstapp-1.0 -ldl -lpthread -lCppLinuxSerial
 
