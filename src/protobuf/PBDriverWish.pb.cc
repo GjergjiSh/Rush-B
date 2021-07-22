@@ -66,10 +66,8 @@ const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_PBDriv
   schemas, file_default_instances, TableStruct_PBDriverWish_2eproto::offsets,
   file_level_metadata_PBDriverWish_2eproto, file_level_enum_descriptors_PBDriverWish_2eproto, file_level_service_descriptors_PBDriverWish_2eproto,
 };
-PROTOBUF_ATTRIBUTE_WEAK ::PROTOBUF_NAMESPACE_ID::Metadata
-descriptor_table_PBDriverWish_2eproto_metadata_getter(int index) {
-  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_PBDriverWish_2eproto);
-  return descriptor_table_PBDriverWish_2eproto.file_level_metadata[index];
+PROTOBUF_ATTRIBUTE_WEAK const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable* descriptor_table_PBDriverWish_2eproto_getter() {
+  return &descriptor_table_PBDriverWish_2eproto;
 }
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -82,10 +80,13 @@ class PBDriverWish::_Internal {
  public:
 };
 
-PBDriverWish::PBDriverWish(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+PBDriverWish::PBDriverWish(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor();
-  RegisterArenaDtor(arena);
+  if (!is_message_owned) {
+    RegisterArenaDtor(arena);
+  }
   // @@protoc_insertion_point(arena_constructor:PBDriverWish.PBDriverWish)
 }
 PBDriverWish::PBDriverWish(const PBDriverWish& from)
@@ -97,7 +98,7 @@ PBDriverWish::PBDriverWish(const PBDriverWish& from)
   // @@protoc_insertion_point(copy_constructor:PBDriverWish.PBDriverWish)
 }
 
-void PBDriverWish::SharedCtor() {
+inline void PBDriverWish::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&left_servo_) - reinterpret_cast<char*>(this)),
     0, static_cast<size_t>(reinterpret_cast<char*>(&top_servo_) -
@@ -106,12 +107,13 @@ void PBDriverWish::SharedCtor() {
 
 PBDriverWish::~PBDriverWish() {
   // @@protoc_insertion_point(destructor:PBDriverWish.PBDriverWish)
+  if (GetArenaForAllocation() != nullptr) return;
   SharedDtor();
   _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-void PBDriverWish::SharedDtor() {
-  GOOGLE_DCHECK(GetArena() == nullptr);
+inline void PBDriverWish::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
 }
 
 void PBDriverWish::ArenaDtor(void* object) {
@@ -141,7 +143,6 @@ const char* PBDriverWish::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_I
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    CHK_(ptr);
     switch (tag >> 3) {
       // int32 left_servo = 1;
       case 1:
@@ -166,7 +167,8 @@ const char* PBDriverWish::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_I
         continue;
       default: {
       handle_unusual:
-        if ((tag & 7) == 4 || tag == 0) {
+        if ((tag == 0) || ((tag & 7) == 4)) {
+          CHK_(ptr);
           ctx->SetLastTag(tag);
           goto success;
         }
@@ -193,19 +195,19 @@ failure:
   (void) cached_has_bits;
 
   // int32 left_servo = 1;
-  if (this->left_servo() != 0) {
+  if (this->_internal_left_servo() != 0) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_left_servo(), target);
   }
 
   // int32 right_servo = 2;
-  if (this->right_servo() != 0) {
+  if (this->_internal_right_servo() != 0) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_right_servo(), target);
   }
 
   // int32 top_servo = 3;
-  if (this->top_servo() != 0) {
+  if (this->_internal_top_servo() != 0) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_top_servo(), target);
   }
@@ -227,21 +229,21 @@ size_t PBDriverWish::ByteSizeLong() const {
   (void) cached_has_bits;
 
   // int32 left_servo = 1;
-  if (this->left_servo() != 0) {
+  if (this->_internal_left_servo() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
         this->_internal_left_servo());
   }
 
   // int32 right_servo = 2;
-  if (this->right_servo() != 0) {
+  if (this->_internal_right_servo() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
         this->_internal_right_servo());
   }
 
   // int32 top_servo = 3;
-  if (this->top_servo() != 0) {
+  if (this->_internal_top_servo() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
         this->_internal_top_servo());
@@ -256,44 +258,35 @@ size_t PBDriverWish::ByteSizeLong() const {
   return total_size;
 }
 
-void PBDriverWish::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:PBDriverWish.PBDriverWish)
-  GOOGLE_DCHECK_NE(&from, this);
-  const PBDriverWish* source =
-      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<PBDriverWish>(
-          &from);
-  if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:PBDriverWish.PBDriverWish)
-    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:PBDriverWish.PBDriverWish)
-    MergeFrom(*source);
-  }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData PBDriverWish::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
+    PBDriverWish::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*PBDriverWish::GetClassData() const { return &_class_data_; }
+
+void PBDriverWish::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message*to,
+                      const ::PROTOBUF_NAMESPACE_ID::Message&from) {
+  static_cast<PBDriverWish *>(to)->MergeFrom(
+      static_cast<const PBDriverWish &>(from));
 }
+
 
 void PBDriverWish::MergeFrom(const PBDriverWish& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:PBDriverWish.PBDriverWish)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.left_servo() != 0) {
+  if (from._internal_left_servo() != 0) {
     _internal_set_left_servo(from._internal_left_servo());
   }
-  if (from.right_servo() != 0) {
+  if (from._internal_right_servo() != 0) {
     _internal_set_right_servo(from._internal_right_servo());
   }
-  if (from.top_servo() != 0) {
+  if (from._internal_top_servo() != 0) {
     _internal_set_top_servo(from._internal_top_servo());
   }
-}
-
-void PBDriverWish::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:PBDriverWish.PBDriverWish)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
 void PBDriverWish::CopyFrom(const PBDriverWish& from) {
@@ -309,7 +302,7 @@ bool PBDriverWish::IsInitialized() const {
 
 void PBDriverWish::InternalSwap(PBDriverWish* other) {
   using std::swap;
-  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(PBDriverWish, top_servo_)
       + sizeof(PBDriverWish::top_servo_)
@@ -319,9 +312,10 @@ void PBDriverWish::InternalSwap(PBDriverWish* other) {
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata PBDriverWish::GetMetadata() const {
-  return GetMetadataStatic();
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_PBDriverWish_2eproto_getter, &descriptor_table_PBDriverWish_2eproto_once,
+      file_level_metadata_PBDriverWish_2eproto[0]);
 }
-
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace PBDriverWish

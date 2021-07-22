@@ -6,6 +6,13 @@
 #include <string>
 #include <thread>
 
+#define VLOG_INFO(msg) \
+    std::cout << "[I] [ Bus : VideoPipeline  ] " << msg << std::endl;
+#define VLOG_WARNING(msg) \
+    std::cerr << "[W] [ Bus : VideoPipeline ] " << msg << std::endl;
+#define VLOG_ERROR(msg, err) \
+    std::cerr << "[E] [ Bus : VideoPipeline  ] " << msg << " " << err << std::endl;
+
 /**************************************    Pipeline    *********************************
 
     gst-launch-1.0 -v udpsrc port=xxxx ! \
@@ -30,11 +37,11 @@ typedef struct
     GstElement* autovideosink;
 } tVideoPipeline;
 
-class VideoSubscriber {
+class VideoPipeline {
 
 public:
-    VideoSubscriber();
-    ~VideoSubscriber();
+    VideoPipeline() = default;
+    ~VideoPipeline() = default;
     int32_t Construct_Pipeline();
     int32_t Create_Elements();
     int32_t Configure_Elements();
@@ -46,6 +53,7 @@ public:
     int32_t port;
     tVideoPipeline* pipeline;
     GMainLoop* loop;
+    std::thread video_thread;
 };
 
 #endif /* VIDEOPIPELINE_H */

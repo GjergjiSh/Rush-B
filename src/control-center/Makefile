@@ -1,12 +1,11 @@
-PRJ_PATH = -I./subscriber/video \
-           -I./publisher/serializer \
+PRJ_PATH = -I./bus/video \
 		   -I/usr/include/gstreamer-1.0 \
 		   -I/usr/include/glib-2.0 \
 		   -I/usr/lib/x86_64-linux-gnu/glib-2.0/include \
            -I../protobuf \
-           -I./subscriber \
-           -I./publisher \
 		   -I./device \
+		   -I./bus \
+		   -I./bus/zmq \
            -I.
 
 OBJ_PATH = ./obj
@@ -15,7 +14,7 @@ BUILD_PATH = ./build
 
 POST_BUILD = @mv
 
-OBJ_PRJ = $(OBJ_PATH)/Keyboard.o $(OBJ_PATH)/Controller.o $(OBJ_PATH)/VideoPipeline.o $(OBJ_PATH)/Publisher.o $(OBJ_PATH)/Subscriber.o $(OBJ_PATH)/ControlCenter.o $(OBJ_PATH)/Main.o $(OBJ_PATH)/PBDriverWish.o
+OBJ_PRJ = $(OBJ_PATH)/Keyboard.o $(OBJ_PATH)/Controller.o $(OBJ_PATH)/VideoPipeline.o $(OBJ_PATH)/ControlCenter.o $(OBJ_PATH)/Main.o $(OBJ_PATH)/PBDriverWish.o $(OBJ_PATH)/Bus.o $(OBJ_PATH)/ZMQPipeline.o
 
 CC = g++ -std=c++17 -static-libgcc -static-libstdc++ -fPIC $(PRJ_PATH) -m64 -msse2 -Wall -O2 -Wno-comment -Wno-deprecated-declarations -pthread -c
 
@@ -37,6 +36,18 @@ $(POST_BUILD):
 ControlCenter: $(OBJ_PRJ)
 	$(LD) $(OBJ_PRJ) $(LIB_PRJ) -o ControlCenter
 
+$(OBJ_PATH)/ControlCenter.o: ./ControlCenter.cpp
+	$(CC) -o $@ $?
+
+$(OBJ_PATH)/Bus.o: ./bus/Bus.cpp
+	$(CC) -o $@ $?
+
+$(OBJ_PATH)/VideoPipeline.o: ./bus/video/VideoPipeline.cpp
+	$(CC) -o $@ $?
+
+$(OBJ_PATH)/ZMQPipeline.o: ./bus/zmq/ZMQPipeline.cpp
+	$(CC) -o $@ $?
+
 $(OBJ_PATH)/Main.o: ./Main.cpp
 	$(CC) -o $@ $?
 
@@ -44,18 +55,6 @@ $(OBJ_PATH)/Keyboard.o: ./device/Keyboard.cpp
 	$(CC) -o $@ $?
 
 $(OBJ_PATH)/Controller.o: ./device/Controller.cpp
-	$(CC) -o $@ $?
-
-$(OBJ_PATH)/VideoPipeline.o: ./subscriber/video/VideoPipeline.cpp
-	$(CC) -o $@ $?
-
-$(OBJ_PATH)/Publisher.o: ./publisher/Publisher.cpp
-	$(CC) -o $@ $?
-
-$(OBJ_PATH)/Subscriber.o: ./subscriber/Subscriber.cpp
-	$(CC) -o $@ $?
-
-$(OBJ_PATH)/ControlCenter.o: ./ControlCenter.cpp
 	$(CC) -o $@ $?
 
 $(OBJ_PATH)/PBDriverWish.o: ../protobuf/PBDriverWish.pb.cc

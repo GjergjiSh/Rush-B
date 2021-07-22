@@ -1,16 +1,24 @@
 #ifndef CONTROLCENTER_H
 #define CONTROLCENTER_H
 
+#define DRAW_LINE                                                                                    \
+    std::cout << " ================================================================= " << std::endl; \
+    std::cout << " -----------------------|   Control Center  |--------------------- " << std::endl; \
+    std::cout << " ================================================================= " << std::endl;
+
 #include "Controller.h"
 #include "Keyboard.h"
-#include "Publisher.h"
-#include "Subscriber.h"
+#include "Bus.h"
+
+
+#define CONTROLLER 1
+#define KEYBOARD 2
 
 class ControlCenter {
 
 public:
-    ControlCenter();
-    ~ControlCenter();
+    ControlCenter() = default;
+    ~ControlCenter() = default;
 
     int32_t Connect_Device();
 
@@ -18,12 +26,11 @@ public:
     int32_t Control_Robot();
     int32_t Deinit();
 
-    std::string active_device;
+    int32_t active_device;
 
-    Subscriber* subscriber;
-    Publisher* publisher;
     Keyboard keyboard;
     Controller controller;
+    Bus bus;
 
 };
 
