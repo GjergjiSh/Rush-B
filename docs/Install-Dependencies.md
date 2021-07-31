@@ -53,8 +53,13 @@
 **cppzmq**
 1. git clone https://github.com/zeromq/cppzmq.git
 2. cd cppzmq
-3. cmake ..
-4. sudo make -j4 install
+3. mkdir build
+4. cd build/
+5. cmake ..
+6. sudo make -j4 install
+
+**boost**
+sudo apt-get install libboost-all-dev
 
 
 

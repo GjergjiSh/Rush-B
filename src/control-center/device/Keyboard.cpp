@@ -31,7 +31,7 @@ int32_t Keyboard::Process_Input()
                 //Steering right
                 if (ev[i].code == KEY_RIGHT) {
                     if (PRESSED) {
-
+                        cout << "bruh" << endl;
                     }
 
                     else {

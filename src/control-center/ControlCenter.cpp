@@ -18,7 +18,9 @@ int32_t ControlCenter::Init()
 {
     { //TODO: The code in this scope temporarily hardcoded. these items should be configurable through the control-center.cfg file
         this->controller.device_path = "/dev/input/by-id/usb-Inno_GamePad.._Inno_GamePad.._0000001-joystick";
-        this->active_device = CONTROLLER;
+        //this->active_device = CONTROLLER;
+        this->active_device = KEYBOARD;
+        this->keyboard.device_path = "/dev/input/event7";
         this->bus.udp_transport = 5000;
         this->bus.zmq_pipeline.tcp_transport = "0.0.0.0:5001";
         this->bus.zmq_pipeline.ipc_interface_transport = "interfacetransport";
@@ -48,9 +50,9 @@ int32_t ControlCenter::Control_Robot()
     //     dev_status = -1;
     // }
 
-    dev_status = this->controller.Process_Input();
-    s_status = this->controller.driver_wish.SerializeToString(&driver_wish) - 1;
-    z_status = this->bus.Publish_Driver_Wish("CONTROLLER", driver_wish);
+    dev_status = this->keyboard.Process_Input();// this->controller.Process_Input();
+    s_status = this->keyboard.driver_wish.SerializeToString(&driver_wish) - 1;// this->controller.driver_wish.SerializeToString(&driver_wish) - 1;
+    z_status = this->bus.Publish_Driver_Wish("KEYBOARD", driver_wish);
     usleep(10000);
     return s_status + z_status + dev_status;
 }

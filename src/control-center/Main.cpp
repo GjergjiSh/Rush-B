@@ -18,6 +18,7 @@ int main(int argc, char* argv[])
         while (RUNNING) {
             if (control_center->Control_Robot() == 0) {
                // control_center->controller.Print_Driver_Wish();
+               //control_center->keyboard.Print_Driver_Wish();
             }
         }
     }
