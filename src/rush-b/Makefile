@@ -24,7 +24,7 @@ CC = g++ -std=c++17 -static-libgcc -static-libstdc++ -fPIC $(PRJ_PATH) -Wall -O2
 
 LD = g++ -static-libgcc -static-libstdc++ -Wall -Wl,--copy-dt-needed-entries
 
-LIB_PRJ = -lzmq -lprotobuf -lgstreamer-1.0 -lgobject-2.0 -lglib-2.0 -lgstapp-1.0 -ldl -lpthread -lCppLinuxSerial
+LIB_PRJ = -lzmq -l:libprotobuf.so.20.0.0 -lgstreamer-1.0 -lgobject-2.0 -lglib-2.0 -lgstapp-1.0 -ldl -lpthread -lCppLinuxSerial
 
 all: $(OBJ_PATH) $(BUILD_PATH)  RushB $(POST_BUILD)
 

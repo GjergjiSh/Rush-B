@@ -9,11 +9,13 @@
 class Keyboard : public Device {
 public:
     Keyboard();
-    ~Keyboard();
-    int32_t Initialize_Device();
-    int32_t Process_Input();
+    ~Keyboard() = default;
+    int32_t Initialize_Device(const char* device_path) override;
+    int32_t Process_Input() override;
+    void Print_Driver_Wish() override;
+
+private:
     struct input_event ev[64];
-    void Print_Driver_Wish();
 };
 
 #endif /* KEYBOARD_H */

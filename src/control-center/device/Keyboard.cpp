@@ -1,16 +1,18 @@
 #include "Keyboard.h"
 
-using namespace std;
-
-Keyboard::Keyboard() { }
-
-Keyboard::~Keyboard() { }
-
-int32_t Keyboard::Initialize_Device()
+Keyboard::Keyboard()
 {
+    this->driver_wish.set_left_servo(90);
+    this->driver_wish.set_right_servo(90);
+    this->driver_wish.set_top_servo(0);
+}
+
+int32_t Keyboard::Initialize_Device(const char* device_path)
+{
+    this->device_path = device_path;
     char name[256] = "Unknown";
     if ((file_descriptor = open(device_path, O_RDONLY)) < 0) {
-        fprintf(stderr, "[E] [ Device : Keyboard ] Cannot open %s: %s.\n", device_path, strerror(errno));
+        fprintf(stderr, "[E] [ Device : Keyboard ] Cannot open %s: %s.\n", this->device_path, strerror(errno));
         return -1;
     } else {
         printf("[I] [ Device : Keyboard ] Device Recognized\n");
@@ -70,7 +72,9 @@ int32_t Keyboard::Process_Input()
                 }
             }
         }
-    } else { return -1; }
+    } else {
+        return -1;
+    }
     return 0;
 }
 

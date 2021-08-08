@@ -1,19 +1,22 @@
 #include "Controller.h"
 
-using namespace std;
+Controller::Controller() {
 
-Controller::Controller() { }
-Controller::~Controller() { }
+    this->driver_wish.set_left_servo(90);
+    this->driver_wish.set_right_servo(90);
+    this->driver_wish.set_top_servo(0);
+}
 
 /*********************************************************************
  * @brief  Initializes the Controller
  * @return int32_t 0 if successful or -1 if not successful
  *****************************************************************/
-int32_t Controller::Initialize_Device()
+int32_t Controller::Initialize_Device(const char* device_path)
 {
+    this->device_path = device_path;
     char name[256] = "Unknown";
     if ((file_descriptor = open(device_path, O_RDONLY)) < 0) {
-        fprintf(stderr, "[E] [ Device : Controller ] Cannot open %s: %s.\n", device_path, strerror(errno));
+        fprintf(stderr, "[E] [ Device : Controller ] Cannot open %s: %s.\n", this->device_path, strerror(errno));
         return -1;
     } else {
         printf("[I] [ Device : Controller ] Device Recognized\n");
@@ -81,9 +84,11 @@ void Controller::Handle_Thumbstick_Events()
 
     if (thumb_stick == RIGHTSTICK) {
         this->driver_wish.set_right_servo((int)(((-1 * stick_coordinates[RIGHTSTICK].x + 32767) * 90) / 32767));
+        if (stick_coordinates[RIGHTSTICK].x == 0) this->driver_wish.set_right_servo(90);
 
     } else if (thumb_stick == LEFTSTICK) {
         this->driver_wish.set_left_servo((int)(((-1 * stick_coordinates[LEFTSTICK].y + 32767) * 90) / 32767));
+        if (stick_coordinates[LEFTSTICK].y == 0) this->driver_wish.set_left_servo(90);
     }
 }
 

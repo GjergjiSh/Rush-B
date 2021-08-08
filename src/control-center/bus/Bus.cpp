@@ -40,7 +40,6 @@ int32_t Bus::Publish_Driver_Wish(
 
 int32_t Bus::Video_Init_Pipeline()
 {
-    this->video_sub_pipe.port = this->udp_transport;
     int32_t status = this->video_sub_pipe.Construct_Pipeline();
     if (status == 0) status = this->video_sub_pipe.Set_Pipeline_State_Playing();
     if (status == 0) {this->video_sub_pipe.Start_Gloop();}

@@ -19,20 +19,20 @@ struct coordinates {
 class Controller : public Device {
 public:
     Controller();
-    ~Controller();
+    ~Controller() = default;
 
-    bool Connected();
-    size_t Moved_Stick();
+    int32_t Process_Input() override;
+    int32_t Initialize_Device(const char* device_path) override;
+    void Print_Driver_Wish() override;
+
+private:
     void Handle_Button_Events();
     void Handle_Thumbstick_Events();
-    int32_t Process_Input();
-    int32_t Initialize_Device();
-    void Print_Driver_Wish();
+    bool Connected();
 
     coordinates stick_coordinates[3];
     js_event event;
-
-private:
+    size_t Moved_Stick();
 };
 
 #endif /* CONTROLLER_H */

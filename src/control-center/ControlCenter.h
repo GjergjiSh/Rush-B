@@ -9,6 +9,8 @@
 #include "Controller.h"
 #include "Keyboard.h"
 #include "Bus.h"
+#include "Configurator.h"
+#include <unordered_map>
 
 
 #define CONTROLLER 1
@@ -17,20 +19,20 @@
 class ControlCenter {
 
 public:
-    ControlCenter() = default;
+    ControlCenter(const char* config_path);
     ~ControlCenter() = default;
-
-    int32_t Connect_Device();
 
     int32_t Init();
     int32_t Control_Robot();
     int32_t Deinit();
 
-    int32_t active_device;
-
-    Keyboard keyboard;
-    Controller controller;
+private:
+    std::string active_device;
+    Configurator* configurator;
+    Device* device;
     Bus bus;
+
+
 
 };
 
