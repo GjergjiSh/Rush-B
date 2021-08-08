@@ -28,7 +28,6 @@ public:
         const std::string topic,
         std::string data);
 
-    uint32_t udp_transport;
     ZMQPipeline zmq_pipeline;
     VideoPipeline video_sub_pipe;
 };

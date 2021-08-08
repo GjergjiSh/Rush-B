@@ -15,7 +15,7 @@ class Device {
 public:
     virtual ~Device() = default;
     virtual int32_t Process_Input() = 0;
-    virtual int32_t Initialize_Device() = 0;
+    virtual int32_t Initialize_Device(const char* device_path) = 0;
     virtual void Print_Driver_Wish() = 0;
 
     const char* device_path;

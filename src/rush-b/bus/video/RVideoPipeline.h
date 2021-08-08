@@ -6,25 +6,6 @@
 #include <string.h>
 #include <unordered_map>
 
-typedef struct
-{
-    int tune;
-    int speed_preset;
-    int bitrate;
-} tX264Param;
-
-typedef struct
-{
-    std::string host;
-    int port;
-} tSINKParam;
-
-typedef struct
-{
-    std::string camera;
-    tX264Param x264_param;
-    tSINKParam sink_param;
-} tVideoPipelineParam;
 
 typedef struct
 {
@@ -34,7 +15,6 @@ typedef struct
     GstElement* x264enc;
     GstElement* rtph264pay;
     GstElement* udpsink;
-    tVideoPipelineParam parameters;
 } tVideoPipeline;
 
 class VideoPipeline {
@@ -49,8 +29,10 @@ public:
     int32_t Destroy_Pipeline();
     int32_t Set_Pipeline_State_Playing();
 
-    tVideoPipelineParam* pipeline_parameters;
     tVideoPipeline* pipeline;
+    std::string camera;
+    std::string camera_subscriber_host;
+    int camera_subscriber_port;
 };
 
 #endif /* R_VIDEOPIPELINE_H */

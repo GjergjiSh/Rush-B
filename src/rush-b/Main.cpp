@@ -4,7 +4,7 @@
 int main(int argc, char* argv[])
 {
     //Entry (ArduinoLink, VideoPipeline and ZMQ Connection)
-    RushB* rush_b = new RushB();
+    RushB* rush_b = new RushB("./config.xml");
 
     if (rush_b->Init() == 0) {
         //Controlling Robot movement

@@ -44,19 +44,12 @@ int32_t VideoPipeline::Create_Elements()
 
 int32_t VideoPipeline::Configure_Elements()
 {
-    // g_object_set(pipeline->v4l2src, "device", pipeline->parameters.camera.c_str(), NULL);
-    // g_object_set(pipeline->x264enc, "tune", pipeline->parameters.x264_param.tune, NULL);
-    // g_object_set(pipeline->x264enc, "speed-preset", pipeline->parameters.x264_param.speed_preset, NULL);
-    // g_object_set(pipeline->x264enc, "bitrate", pipeline->parameters.x264_param.bitrate, NULL);
-    // g_object_set(G_OBJECT(pipeline->udpsink), "host", pipeline->parameters.sink_param.host.c_str(), NULL);
-    // g_object_set(G_OBJECT(pipeline->udpsink), "port", pipeline->parameters.sink_param.port, NULL);
-
-    g_object_set(pipeline->v4l2src, "device", "/dev/video0", NULL);
+    g_object_set(pipeline->v4l2src, "device", this->camera.c_str(), NULL);
     g_object_set(pipeline->x264enc, "tune", 4, NULL);
     g_object_set(pipeline->x264enc, "speed-preset", 1, NULL);
     g_object_set(pipeline->x264enc, "bitrate", 2000, NULL);
-    g_object_set(G_OBJECT(pipeline->udpsink), "host", "127.0.0.1", NULL);
-    g_object_set(G_OBJECT(pipeline->udpsink), "port", 5000, NULL);
+    g_object_set(G_OBJECT(pipeline->udpsink), "host", this->camera_subscriber_host.c_str(), NULL);
+    g_object_set(G_OBJECT(pipeline->udpsink), "port", this->camera_subscriber_port, NULL);
 
     return 0;
 }

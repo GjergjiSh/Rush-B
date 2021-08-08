@@ -6,6 +6,7 @@ PRJ_PATH = -I./bus/video \
 		   -I./device \
 		   -I./bus \
 		   -I./bus/zmq \
+		   -I./configurator \
            -I.
 
 OBJ_PATH = ./obj
@@ -14,13 +15,13 @@ BUILD_PATH = ./build
 
 POST_BUILD = @mv
 
-OBJ_PRJ = $(OBJ_PATH)/Keyboard.o $(OBJ_PATH)/Controller.o $(OBJ_PATH)/VideoPipeline.o $(OBJ_PATH)/ControlCenter.o $(OBJ_PATH)/Main.o $(OBJ_PATH)/PBDriverWish.o $(OBJ_PATH)/Bus.o $(OBJ_PATH)/ZMQPipeline.o
+OBJ_PRJ = $(OBJ_PATH)/Keyboard.o $(OBJ_PATH)/Controller.o $(OBJ_PATH)/VideoPipeline.o $(OBJ_PATH)/ControlCenter.o $(OBJ_PATH)/Main.o $(OBJ_PATH)/PBDriverWish.o $(OBJ_PATH)/Bus.o $(OBJ_PATH)/ZMQPipeline.o $(OBJ_PATH)/Configurator.o
 
 CC = g++ -std=c++17 -static-libgcc -static-libstdc++ -fPIC $(PRJ_PATH) -m64 -msse2 -Wall -O2 -Wno-comment -Wno-deprecated-declarations -pthread -c
 
 LD = g++ -static-libgcc -static-libstdc++ -m64 -Wall -Wl,--copy-dt-needed-entries
 
-LIB_PRJ = -lzmq -lprotobuf -lgstreamer-1.0 -lgobject-2.0 -lglib-2.0 -lgstapp-1.0 -ldl -lpthread
+LIB_PRJ = -lzmq -l:libprotobuf.so.20.0.0 -lgstreamer-1.0 -lgobject-2.0 -lglib-2.0 -lgstapp-1.0 -ldl -lpthread -lpugixml
 
 all: $(OBJ_PATH) $(BUILD_PATH)  ControlCenter $(POST_BUILD)
 
@@ -32,6 +33,7 @@ $(BUILD_PATH):
 
 $(POST_BUILD):
 	$(POST_BUILD) ControlCenter $(BUILD_PATH)
+	@cp config.xml $(BUILD_PATH)
 
 ControlCenter: $(OBJ_PRJ)
 	$(LD) $(OBJ_PRJ) $(LIB_PRJ) -o ControlCenter
@@ -58,6 +60,9 @@ $(OBJ_PATH)/Controller.o: ./device/Controller.cpp
 	$(CC) -o $@ $?
 
 $(OBJ_PATH)/PBDriverWish.o: ../protobuf/PBDriverWish.pb.cc
+	$(CC) -o $@ $?
+
+$(OBJ_PATH)/Configurator.o: ./configurator/Configurator.cpp
 	$(CC) -o $@ $?
 
 clean:
