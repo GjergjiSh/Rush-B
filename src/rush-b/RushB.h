@@ -7,17 +7,22 @@
     std::cout << " ================================================================= " << std::endl;
 
 #include "RBus.h"
+#include "RConfigurator.h"
 
 class RushB {
 
 public:
-    RushB();
-    ~RushB();
+    RushB(const char* config_path);
+    ~RushB() = default;
 
     int32_t Init();
     int32_t Deinit();
     int32_t Control_Robot();
 
+private:
+    void Kill_Servos();
+
+    Configurator* configurator;
     Bus bus;
 };
 
