@@ -13,7 +13,6 @@ typedef struct
     zmq::context_t zmq_context;
     zmq::socket_t dw_pub_socket;
     zmq::socket_t dw_sub_socket;
-    zmq::socket_t video_pub_socket;
 } tZMQPipeline;
 
 class ZMQPipeline {

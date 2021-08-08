@@ -7,7 +7,7 @@ class DWPublisher():
     def __init__(self, interface_transport = 'interfacetransport'):
         self.interface_transport = interface_transport
         self.zmq_context = zmq.Context()
-        self.dw_pub_socket = self.zmq_context.socket(zmq.PUB)
+        self.dw_pub_socket = self.zmq_context.socket(zmq.PUSH)
         self.dw_pub_socket.setsockopt(zmq.LINGER, 0)
         self.dw_pub_socket.bind("ipc://{}".format(interface_transport))
 

@@ -1,6 +1,7 @@
 #ifndef BUS_H
 #define BUS_H
 
+#include "PBDriverWish.pb.h"
 #include "VideoPipeline.h"
 #include "ZMQPipeline.h"
 
@@ -24,9 +25,8 @@ public:
     int32_t Video_Init_Pipeline();
     int32_t Video_Deinit_Pipeline();
 
-    int32_t Publish_Driver_Wish(
-        const std::string topic,
-        std::string data);
+    int32_t Publish_Driver_Wish( const std::string topic,std::string data);
+    std::string Receive_PyDriverWish();
 
     ZMQPipeline zmq_pipeline;
     VideoPipeline video_sub_pipe;
