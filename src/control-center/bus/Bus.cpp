@@ -18,6 +18,28 @@ int32_t Bus::Deinit()
     return status;
 }
 
+std::string Bus::Receive_PyDriverWish()
+{
+    int32_t recv = 0;
+    zmq::message_t z_message;
+    zmq::pollitem_t subscriber = {this->zmq_pipeline.pipe.dw_sub_socket, 0, ZMQ_POLLIN, 0};
+    std::string driver_wish;
+
+    try {
+        zmq::poll(&subscriber, 1, -1);
+        if (subscriber.revents & ZMQ_POLLIN) {
+            recv = this->zmq_pipeline.pipe.dw_sub_socket.recv(&z_message);
+            if (recv > 0) {
+                driver_wish = static_cast<char*>(z_message.data()), z_message.size();
+
+            }
+        }
+    } catch (zmq::error_t& e) {
+        LOG_ERROR("Failed to receive driver wish", e.what());
+    }
+    return driver_wish;
+}
+
 int32_t Bus::Publish_Driver_Wish(
     const std::string topic,
     std::string data)

@@ -3,4 +3,7 @@ obj
 build
 Notes.md
 Playground.cpp
+OpenCV
+interfacetransport
 sandbox
+__pycache__

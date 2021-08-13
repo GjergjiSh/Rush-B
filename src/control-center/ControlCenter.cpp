@@ -29,6 +29,9 @@ int32_t ControlCenter::Control_Robot()
     int32_t dev_status = this->device->Process_Input();
     int32_t s_status = this->device->driver_wish.SerializeToString(&driver_wish) - 1;
     int32_t z_status = this->bus.Publish_Driver_Wish("CONTROLLER", driver_wish);
+
+    this->bus.Receive_PyDriverWish();
+
     //this->device->Print_Driver_Wish();
     usleep(10000);
     return s_status + z_status + dev_status;
