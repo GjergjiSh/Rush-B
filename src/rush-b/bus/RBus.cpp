@@ -2,10 +2,9 @@
 
 int32_t Bus::Init()
 {
-    int32_t status = 0;
-    status = ZMQ_Init_Pipeline();
-    if (status == 0) status = Video_Init_Pipeline();
-    if (status == 0) status = Arduino_Init_Pipeline();
+    int32_t status = ZMQ_Init_Pipeline();
+    status = Video_Init_Pipeline() & status;
+    status = Arduino_Init_Pipeline() & status;
     if (status == 0) {LOG_INFO("Bus succcessfuly initialzed");
     } else { LOG_ERROR("Bus failed to initialize", ""); }
     return status;
@@ -13,10 +12,9 @@ int32_t Bus::Init()
 
 int32_t Bus::Deinit()
 {
-    int32_t status = 0;
-    status = ZMQ_Deinit_Pipeline();
-    if (status == 0) status = Video_Deinit_Pipeline();
-    if (status == 0) {status = Arduino_Deinit_Pipeline();}
+    int32_t status = ZMQ_Deinit_Pipeline();
+    status = Video_Deinit_Pipeline() & status;
+    status = Arduino_Deinit_Pipeline() & status;
     return status;
 }
 

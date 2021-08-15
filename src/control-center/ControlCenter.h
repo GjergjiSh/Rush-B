@@ -28,8 +28,8 @@ public:
 
 private:
     std::string active_device;
-    Configurator* configurator;
-    Device* device;
+    std::unique_ptr<Configurator> configurator;
+    std::unique_ptr<Device> device;
     Bus bus;
 
 

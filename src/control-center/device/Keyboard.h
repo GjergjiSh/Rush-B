@@ -4,7 +4,7 @@
 #include "Device.h"
 
 #define PRESSED ((ev[i].value == 1 || ev[i].value == 2))
-#define VAL 0.1
+#define VAL 10
 
 class Keyboard : public Device {
 public:
@@ -15,7 +15,11 @@ public:
     void Print_Driver_Wish() override;
 
 private:
-    struct input_event ev[64];
+    void Turn_Left();
+    void Turn_Right();
+    void Go_Forward();
+    void Go_Backwards();
+    void Full_Stop();
 };
 
 #endif /* KEYBOARD_H */

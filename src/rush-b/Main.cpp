@@ -4,14 +4,14 @@
 int main(int argc, char* argv[])
 {
     //Entry (ArduinoLink, VideoPipeline and ZMQ Connection)
-    RushB* rush_b = new RushB("./config.xml");
+    std::unique_ptr<RushB> rush_b = std::make_unique<RushB>("./config.xml");
 
     if (rush_b->Init() == 0) {
         //Controlling Robot movement
         while (!s_interrupted) {
-	    s_catch_signals();
-            int32_t status = rush_b->Control_Robot();
-            if (status != 0) break;
+            Catch_Signals();
+            if (rush_b->Control_Robot() != 0)
+                break;
         }
     }
     //Exit

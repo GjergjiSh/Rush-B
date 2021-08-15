@@ -43,9 +43,7 @@ public:
     VideoPipeline() = default;
     ~VideoPipeline() = default;
     int32_t Construct_Pipeline();
-    int32_t Create_Elements();
-    int32_t Configure_Elements();
-    int32_t Link_Elements();
+
     int32_t Destroy_Pipeline();
     int32_t Set_Pipeline_State_Playing();
     void Start_Gloop();
@@ -54,6 +52,11 @@ public:
     tVideoPipeline* pipeline;
     GMainLoop* loop;
     std::thread video_thread;
+
+private:
+    int32_t Create_Elements();
+    int32_t Configure_Elements();
+    int32_t Link_Elements();
 };
 
 #endif /* VIDEOPIPELINE_H */

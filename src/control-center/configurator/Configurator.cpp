@@ -6,7 +6,6 @@ Configurator::Configurator(const char* config_path)
     Load_Config();
     Parse_Config();
     Print_Config();
-
 }
 
 int32_t Configurator::Load_Config()
@@ -40,6 +39,7 @@ void Configurator::Print_Config()
     std::cout << "[I] Active Device: " << config_items.at(DEVICE) << std::endl;
     std::cout << "[I] Active Device Path: " << config_items.at(DEVICE_PATH) << std::endl;
     std::cout << "[I] ZMQ Pipeline - TCP Transport: " << config_items.at(TCP_TRANSPORT) << std::endl;
+    std::cout << "[I] ZMQ Pipeline - Interface ACTIVE: " << config_items.at(PY_INTERFACE_ACTIVE) << std::endl;
     std::cout << "[I] ZMQ Pipeline - Interface Transport: " << config_items.at(INTERFACE_TRANSPORT) << std::endl;
     std::cout << "[I] Video Pipeline - Video Port: " << config_items.at(VIDEO_PORT) << std::endl;
 }

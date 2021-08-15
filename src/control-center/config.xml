@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- /dev/input/by-id/usb-Inno_GamePad.._Inno_GamePad.._0000001-joystick -->
+
 <Config>
     <ControlCenter>
-        <ActiveDevice device="CONTROLLER" path="/dev/input/by-id/usb-Inno_GamePad.._Inno_GamePad.._0000001-joystick" />
-        <ZMQPipeline tcp="0.0.0.0:5001" pyinterface="interfacetransport" />
+        <ActiveDevice device="KEYBOARD" path="/dev/input/event4" />
+        <ZMQPipeline tcp="0.0.0.0:5001" pyinterface-active = "FALSE" pyinterface-transport="interfacetransport" />
         <VideoPipeline port="5000"/>
     </ControlCenter>
 </Config>

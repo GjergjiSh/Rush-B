@@ -23,9 +23,6 @@ public:
     VideoPipeline() = default;
     ~VideoPipeline() = default;
     int32_t Construct_Pipeline();
-    int32_t Create_Elements();
-    int32_t Configure_Elements();
-    int32_t Link_Elements();
     int32_t Destroy_Pipeline();
     int32_t Set_Pipeline_State_Playing();
 
@@ -33,6 +30,11 @@ public:
     std::string camera;
     std::string camera_subscriber_host;
     int camera_subscriber_port;
+
+private:
+    int32_t Create_Elements();
+    int32_t Configure_Elements();
+    int32_t Link_Elements();
 };
 
 #endif /* R_VIDEOPIPELINE_H */

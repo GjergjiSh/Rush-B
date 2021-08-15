@@ -1,7 +1,7 @@
 #include "RushB.h"
 #include <unistd.h>
 
-RushB::RushB(const char* config_path) {
+RushB::RushB(const char* config_path) { DRAW_LINE
     this->configurator = new Configurator(config_path);
     this->bus.zmq_pipeline.tcp_transport = this->configurator->config_items.at(TCP_TRANSPORT);
     this->bus.serial_transport = this->configurator->config_items.at(SERIAL_PORT);
@@ -22,10 +22,10 @@ int32_t RushB::Control_Robot()
 {
     PBDriverWish::PBDriverWish driver_wish = this->bus.Receive_Driver_Wish();
     int32_t status = this->bus.arduino_link.Write_To_Port(driver_wish);
-/*     //Currently only printing out for testing purpouses
+    //Currently only printing out for testing purpouses
     std::cout << "Top-Servo:" << driver_wish.top_servo() << std::endl;
     std::cout << "Left-Servo:" << driver_wish.left_servo() << std::endl;
-    std::cout << "Right-Servo:" << driver_wish.right_servo() << std::endl; */
+    std::cout << "Right-Servo:" << driver_wish.right_servo() << std::endl;
     usleep(10000);
     return status;
 }

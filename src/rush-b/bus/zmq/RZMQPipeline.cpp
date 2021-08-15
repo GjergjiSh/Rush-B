@@ -7,8 +7,7 @@ void ZMQPipeline::Construct_Sockets()
 
 void ZMQPipeline::Configure_Sockets()
 {
-    this->pipe.dw_sub_socket.setsockopt(ZMQ_SUBSCRIBE, "CONTROLLER", 10);
-    this->pipe.dw_sub_socket.setsockopt(ZMQ_SUBSCRIBE, "KEYBOARD", 8);
+    this->pipe.dw_sub_socket.setsockopt(ZMQ_SUBSCRIBE, "DRIVERWISH", 10);
     this->pipe.dw_sub_socket.setsockopt(ZMQ_LINGER, 0);
     this->pipe.dw_sub_socket.connect("tcp://" + this->tcp_transport);
 }

@@ -9,8 +9,9 @@
 #define DEVICE 0
 #define DEVICE_PATH 1
 #define TCP_TRANSPORT 2
-#define INTERFACE_TRANSPORT 3
-#define VIDEO_PORT 4
+#define PY_INTERFACE_ACTIVE 3
+#define INTERFACE_TRANSPORT 4
+#define VIDEO_PORT 5
 
 #define CLOG_INFO(msg) \
     std::cout << "[I] [ ControlCenter : Configurator ] " << msg << std::endl;

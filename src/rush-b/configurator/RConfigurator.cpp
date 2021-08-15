@@ -37,9 +37,9 @@ void Configurator::Parse_Config()
 
 void Configurator::Print_Config()
 {
-    std::cout << "ZMQ Pipeline - TCP Transport: " << config_items.at(TCP_TRANSPORT) << std::endl;
-    std::cout << "Camera: " << config_items.at(CAMERA) << std::endl;
-    std::cout << "Video Pipeline - Video Host: " << config_items.at(VIDEO_HOST) << std::endl;
-    std::cout << "Video Pipeline - Video Port: " << config_items.at(VIDEO_PORT) << std::endl;
-    std::cout << "Serial Port: " << config_items.at(SERIAL_PORT) << std::endl;
+    std::cout << "[I] ZMQ Pipeline - TCP Transport: " << config_items.at(TCP_TRANSPORT) << std::endl;
+    std::cout << "[I] Camera: " << config_items.at(CAMERA) << std::endl;
+    std::cout << "[I] Video Pipeline - Video Host: " << config_items.at(VIDEO_HOST) << std::endl;
+    std::cout << "[I] Video Pipeline - Video Port: " << config_items.at(VIDEO_PORT) << std::endl;
+    std::cout << "[I] Serial Port: " << config_items.at(SERIAL_PORT) << std::endl;
 }

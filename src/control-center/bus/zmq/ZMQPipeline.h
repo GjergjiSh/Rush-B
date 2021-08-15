@@ -23,8 +23,8 @@ public:
     int32_t Destroy_Pipeline();
 
     std::string ipc_interface_transport;
-    std::string ipc_device_transport;
     std::string tcp_transport;
+    bool py_interface_active = false;
     tZMQPipeline pipe;
 
 private:
