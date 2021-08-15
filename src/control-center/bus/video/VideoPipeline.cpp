@@ -49,7 +49,7 @@ static void Pad_Callback(GstElement* element, GstPad* pad, gpointer data)
 
 int32_t VideoPipeline::Construct_Pipeline()
 {
-    this->pipeline = new tVideoPipeline();
+    this->pipeline = std::make_shared<tVideoPipeline>();
     int32_t status = 0;
 
     gst_init(NULL, NULL);
@@ -83,7 +83,6 @@ int32_t VideoPipeline::Create_Elements()
         return -1;
     }
 
-    //Add elements to the Pipeline
     gst_bin_add_many(GST_BIN(this->pipeline->pipe),
         this->pipeline->udpsrc,
         this->pipeline->filter,
@@ -108,7 +107,6 @@ int32_t VideoPipeline::Configure_Elements()
     g_object_set(G_OBJECT(this->pipeline->filter), "caps", caps, NULL);
     gst_caps_unref(caps);
 
-    //Register Callbacks
     g_signal_connect(this->pipeline->decodebin, "pad-added", G_CALLBACK(Pad_Callback), this->pipeline->videoconvert);
     GstBus* bus = gst_pipeline_get_bus(GST_PIPELINE(this->pipeline->pipe));
     gst_bus_add_signal_watch(bus);
@@ -119,7 +117,6 @@ int32_t VideoPipeline::Configure_Elements()
 
 int32_t VideoPipeline::Link_Elements()
 {
-    //Link udpsrc through to decode bin
     if (!gst_element_link_many(
             this->pipeline->udpsrc,
             this->pipeline->filter,
@@ -129,8 +126,7 @@ int32_t VideoPipeline::Link_Elements()
         gst_object_unref(this->pipeline->pipe);
         return -1;
     }
-    //Decode bin and videoconvert are linked by the Pad Callback
-    //Link videoconvert through to videosink
+
     if (!gst_element_link_many(
             this->pipeline->videoconvert,
             this->pipeline->queue,
@@ -147,13 +143,11 @@ int32_t VideoPipeline::Destroy_Pipeline()
     gst_element_set_state(this->pipeline->pipe, GST_STATE_NULL);
     g_object_unref(this->pipeline->pipe);
     printf("[I] [ Bus : VideoPipeline ] Subscriber Video Pipeline destroyed\n");
-    memset(this->pipeline, 0, sizeof(tVideoPipeline));
     return 0;
 }
 
 int32_t VideoPipeline::Set_Pipeline_State_Playing()
 {
-    //Set State to playing
     GstStateChangeReturn ret = gst_element_set_state(this->pipeline->pipe, GST_STATE_PLAYING);
     if (ret == GST_STATE_CHANGE_FAILURE) {
         g_printerr("[E] [ Bus : VideoPipeline ] Unable to set the pipeline to the playing state.\n");
@@ -166,7 +160,6 @@ int32_t VideoPipeline::Set_Pipeline_State_Playing()
 
 void VideoPipeline::Start_Gloop()
 {
-    //Start the the main loop
     loop = g_main_loop_new(NULL, FALSE);
     this->video_thread = std::thread(g_main_loop_run, loop);
     this->video_thread.detach();

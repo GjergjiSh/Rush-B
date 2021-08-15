@@ -3,9 +3,9 @@
 
 #include <gst/gst.h>
 #include <iostream>
+#include <memory>
 #include <string.h>
 #include <unordered_map>
-
 
 typedef struct
 {
@@ -26,7 +26,7 @@ public:
     int32_t Destroy_Pipeline();
     int32_t Set_Pipeline_State_Playing();
 
-    tVideoPipeline* pipeline;
+    std::shared_ptr<tVideoPipeline> pipeline;
     std::string camera;
     std::string camera_subscriber_host;
     int camera_subscriber_port;

@@ -2,7 +2,7 @@
 
 int32_t VideoPipeline::Construct_Pipeline()
 {
-    this->pipeline = new tVideoPipeline();
+    this->pipeline = std::make_shared<tVideoPipeline>();
     int32_t status = 0;
 
     gst_init(NULL, NULL);
@@ -69,13 +69,11 @@ int32_t VideoPipeline::Destroy_Pipeline()
     gst_element_set_state(this->pipeline->pipe, GST_STATE_NULL);
     gst_object_unref(GST_OBJECT(this->pipeline->pipe));
     g_print("[I] [ Bus : VideoPipeline ] Publisher Video Pipeline Destroyed\n");
-    //memset(this->pipeline, 0, sizeof(tVideoPipeline));
     return 0;
 }
 
 int32_t VideoPipeline::Set_Pipeline_State_Playing()
 {
-    //Set State to playing
     GstStateChangeReturn ret = gst_element_set_state(pipeline->pipe, GST_STATE_PLAYING);
     if (ret == GST_STATE_CHANGE_FAILURE) {
         g_printerr("[E] [ Bus : VideoPipeline ] Unable To Set The Pipeline To The Playing State.\n");

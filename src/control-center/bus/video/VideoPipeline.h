@@ -49,7 +49,7 @@ public:
     void Start_Gloop();
 
     int32_t port;
-    tVideoPipeline* pipeline;
+    std::shared_ptr<tVideoPipeline> pipeline;
     GMainLoop* loop;
     std::thread video_thread;
 
