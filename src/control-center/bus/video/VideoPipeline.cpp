@@ -47,9 +47,29 @@ static void Pad_Callback(GstElement* element, GstPad* pad, gpointer data)
     g_free(name);
 }
 
+static GstFlowReturn New_Sample(GstElement* sink, tVideoPipeline* pipeline)
+{
+    GstSample* sample = gst_app_sink_pull_sample(GST_APP_SINK(sink));
+    GstCaps* caps = gst_sample_get_caps(sample);
+    GstBuffer* buffer = gst_sample_get_buffer(sample);
+    GstStructure* structure = gst_caps_get_structure(caps, 0);
+    const int width = g_value_get_int(gst_structure_get_value(structure, "width"));
+    const int height = g_value_get_int(gst_structure_get_value(structure, "height"));
+
+    GstMapInfo map;
+    gst_buffer_map(buffer, &map, GST_MAP_READ);
+
+    pipeline->Extract_Data(map, width, height);
+
+    gst_buffer_unmap(buffer, &map);
+    gst_sample_unref(sample);
+
+    return GST_FLOW_OK;
+}
+
 int32_t VideoPipeline::Construct_Pipeline()
 {
-    this->pipeline = std::make_shared<tVideoPipeline>();
+    this->pipeline = new tVideoPipeline();
     int32_t status = 0;
 
     gst_init(NULL, NULL);
@@ -64,33 +84,36 @@ int32_t VideoPipeline::Create_Elements()
 {
     this->pipeline->pipe = gst_pipeline_new("Subscriber Video Pipeline");
     this->pipeline->udpsrc = gst_element_factory_make("udpsrc", NULL);
-    this->pipeline->filter = gst_element_factory_make("capsfilter", NULL);
+    this->pipeline->src_filter = gst_element_factory_make("capsfilter", NULL);
     this->pipeline->rtph264depay = gst_element_factory_make("rtph264depay", NULL);
     this->pipeline->decodebin = gst_element_factory_make("decodebin", NULL);
     this->pipeline->videoconvert = gst_element_factory_make("videoconvert", NULL);
+    this->pipeline->sink_filter = gst_element_factory_make("capsfilter", NULL);
     this->pipeline->queue = gst_element_factory_make("queue", NULL);
-    this->pipeline->autovideosink = gst_element_factory_make("autovideosink", NULL);
+    this->pipeline->appsink = gst_element_factory_make("appsink", NULL);
 
     if (!pipeline->pipe ||
         !this->pipeline->udpsrc ||
-        !this->pipeline->filter ||
+        !this->pipeline->src_filter ||
         !this->pipeline->rtph264depay ||
         !this->pipeline->decodebin ||
         !this->pipeline->videoconvert ||
+        !this->pipeline->sink_filter ||
         !this->pipeline->queue ||
-        !this->pipeline->autovideosink) {
+        !this->pipeline->appsink) {
         g_printerr("[I] [ Bus : VideoPipeline ] Failed to create all pipeline elements\n");
         return -1;
     }
 
     gst_bin_add_many(GST_BIN(this->pipeline->pipe),
         this->pipeline->udpsrc,
-        this->pipeline->filter,
+        this->pipeline->src_filter,
         this->pipeline->rtph264depay,
         this->pipeline->decodebin,
         this->pipeline->videoconvert,
+        this->pipeline->sink_filter,
         this->pipeline->queue,
-        this->pipeline->autovideosink, NULL);
+        this->pipeline->appsink, NULL);
 
     return 0;
 }
@@ -104,13 +127,23 @@ int32_t VideoPipeline::Configure_Elements()
         "payload", G_TYPE_INT, 96, NULL);
 
     g_object_set(G_OBJECT(this->pipeline->udpsrc), "port", port, NULL);
-    g_object_set(G_OBJECT(this->pipeline->filter), "caps", caps, NULL);
+    g_object_set(G_OBJECT(this->pipeline->src_filter), "caps", caps, NULL);
     gst_caps_unref(caps);
 
     g_signal_connect(this->pipeline->decodebin, "pad-added", G_CALLBACK(Pad_Callback), this->pipeline->videoconvert);
+
+    GstCaps* caps_two = gst_caps_new_simple("video/x-raw",
+        "format", G_TYPE_STRING, "BGR", NULL);
+
+    g_object_set(G_OBJECT(this->pipeline->sink_filter), "caps", caps_two, NULL);
+    gst_caps_unref(caps_two);
+
     GstBus* bus = gst_pipeline_get_bus(GST_PIPELINE(this->pipeline->pipe));
     gst_bus_add_signal_watch(bus);
     g_signal_connect(bus, "message", (GCallback)Bus_Message_Callback, this->pipeline->pipe);
+
+    g_object_set(G_OBJECT(this->pipeline->appsink), "emit-signals", TRUE, "sync", FALSE, NULL);
+    g_signal_connect(this->pipeline->appsink, "new-sample", G_CALLBACK(New_Sample), this->pipeline);
 
     return 0;
 }
@@ -119,7 +152,7 @@ int32_t VideoPipeline::Link_Elements()
 {
     if (!gst_element_link_many(
             this->pipeline->udpsrc,
-            this->pipeline->filter,
+            this->pipeline->src_filter,
             this->pipeline->rtph264depay,
             this->pipeline->decodebin, NULL)) {
         g_printerr("[E] [ Bus : VideoPipeline ] Failed to link first branch of pipeline elements.\n");
@@ -129,8 +162,9 @@ int32_t VideoPipeline::Link_Elements()
 
     if (!gst_element_link_many(
             this->pipeline->videoconvert,
+            this->pipeline->sink_filter,
             this->pipeline->queue,
-            this->pipeline->autovideosink, NULL)) {
+            this->pipeline->appsink, NULL)) {
         g_printerr("[E] [ Bus : VideoPipeline ] Failed to link second branch of pipeline elements.\n");
         gst_object_unref(pipeline->pipe);
         return -1;

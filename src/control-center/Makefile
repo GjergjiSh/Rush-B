@@ -21,7 +21,7 @@ CC = g++ -std=c++17 -static-libgcc -static-libstdc++ -fPIC $(PRJ_PATH) -m64 -mss
 
 LD = g++ -static-libgcc -static-libstdc++ -m64 -Wall -Wl,--copy-dt-needed-entries
 
-LIB_PRJ = -lzmq -l:libprotobuf.so.20.0.0 -lgstreamer-1.0 -lgobject-2.0 -lglib-2.0 -lgstapp-1.0 -ldl -lpthread -lpugixml
+LIB_PRJ = -lzmq -l:libprotobuf.so.20.0.0 -lgstreamer-1.0 -lgobject-2.0 -lglib-2.0 -lgstapp-1.0 -ldl -lpthread -lpugixml -L/usr/local/lib -l:libopencv_core.so.3.2.0 -l:libopencv_highgui.so.3.2.0 -l:libopencv_imgproc.so.3.2.0 -l:libopencv_imgcodecs.so.3.2.0 -l:libopencv_videoio.so.3.2.0
 
 all: $(OBJ_PATH) $(BUILD_PATH)  ControlCenter $(POST_BUILD)
 

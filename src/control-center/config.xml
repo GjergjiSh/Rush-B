@@ -6,6 +6,6 @@
     <ControlCenter>
         <ActiveDevice device="KEYBOARD" path="/dev/input/event4" />
         <ZMQPipeline tcp="0.0.0.0:5001" pyinterface-active = "FALSE" pyinterface-transport="interfacetransport" />
-        <VideoPipeline port="5000"/>
+        <VideoPipeline port="5000" object-detection-active = "FALSE"/>
     </ControlCenter>
 </Config>

@@ -4,6 +4,8 @@
 #include "PBDriverWish.pb.h"
 #include "VideoPipeline.h"
 #include "ZMQPipeline.h"
+#include <future>
+
 
 #define LOG_INFO(msg) \
     std::cout << "[I] [ ControlCenter : Bus ] " << msg << std::endl;

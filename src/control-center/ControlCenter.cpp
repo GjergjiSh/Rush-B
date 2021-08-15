@@ -23,6 +23,7 @@ int32_t ControlCenter::Init()
 
     int32_t status = this->device->Initialize_Device(configurator->config_items.at(DEVICE_PATH).c_str());
     status = this->bus.Init() & status;
+
     return status;
 }
 

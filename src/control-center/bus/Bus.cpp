@@ -1,5 +1,17 @@
 #include "Bus.h"
 
+static Bus* bus = nullptr;
+static void Extract_Data(GstMapInfo map, const int width, const int height)
+{
+    unsigned char frame_data[(width * height * 3)];
+    memcpy(frame_data, map.data, sizeof(frame_data));
+    cv::Mat frame = cv::Mat(height, width, CV_8UC3, (uchar*)frame_data, cv::Mat::AUTO_STEP);
+    if (frame.data) {
+        cv::imshow("frame", frame);
+        cv::waitKey(1);
+    }
+}
+
 int32_t Bus::Init()
 {
     int32_t status = ZMQ_Init_Pipeline();
@@ -32,7 +44,6 @@ std::string Bus::Receive_PyDriverWish()
             recv = this->zmq_pipeline.pipe.dw_sub_socket.recv(&z_message);
             if (recv > 0) {
                 driver_wish = static_cast<char*>(z_message.data()), z_message.size();
-
             }
         }
     } catch (zmq::error_t& e) {
@@ -64,8 +75,12 @@ int32_t Bus::Publish_Driver_Wish(
 int32_t Bus::Video_Init_Pipeline()
 {
     int32_t status = this->video_sub_pipe.Construct_Pipeline();
-    status = this->video_sub_pipe.Set_Pipeline_State_Playing() & status;
-    if (status == 0) {this->video_sub_pipe.Start_Gloop();}
+    if (status == 0) {
+        bus = this;
+        this->video_sub_pipe.pipeline->Extract_Data =  Extract_Data;
+        status = this->video_sub_pipe.Set_Pipeline_State_Playing() & status;
+    }
+    if (status == 0) {/* this->video_sub_pipe.Start_Gloop(); */}
     return status;
 }
 

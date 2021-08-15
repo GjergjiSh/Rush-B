@@ -3,7 +3,7 @@
 <Config>
     <RushB>
         <ZMQPipeline tcp="0.0.0.0:5001"/>
-        <VideoPipeline camera = "/dev/video0" host = "127.0.0.1" port="5000"/>
+        <VideoPipeline camera = "/dev/video4" host = "127.0.0.1" port="5000"/>
         <ArduinoLink serialport = "/dev/ttyACM0"/>
     </RushB>
 </Config>

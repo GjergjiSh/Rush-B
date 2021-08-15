@@ -31,9 +31,6 @@ private:
     std::unique_ptr<Configurator> configurator;
     std::unique_ptr<Device> device;
     Bus bus;
-
-
-
 };
 
 #endif /* CONTROLCENTER_H */

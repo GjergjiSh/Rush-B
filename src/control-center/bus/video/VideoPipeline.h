@@ -1,8 +1,14 @@
 #ifndef VIDEOPIPELINE_H
 #define VIDEOPIPELINE_H
 
+#include <gst/app/app.h>
+#include <gst/app/gstappsink.h>
 #include <gst/gst.h>
+#include <gst/gstbuffer.h>
 #include <iostream>
+#include <opencv2/core.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 #include <string>
 #include <thread>
 
@@ -21,20 +27,24 @@
     decodebin ! \
     videoconvert ! \
     queue ! \
-    autovideosink
+    appsink
 
  ****************************************************************************************/
+
+typedef void (*tExtract_Data)(GstMapInfo map, const int width, const int height);
 
 typedef struct
 {
     GstElement* pipe;
     GstElement* udpsrc;
-    GstElement* filter;
+    GstElement* src_filter;
     GstElement* rtph264depay;
     GstElement* decodebin;
     GstElement* videoconvert;
+    GstElement* sink_filter;
     GstElement* queue;
-    GstElement* autovideosink;
+    GstElement* appsink;
+    tExtract_Data Extract_Data;
 } tVideoPipeline;
 
 class VideoPipeline {
@@ -49,7 +59,7 @@ public:
     void Start_Gloop();
 
     int32_t port;
-    std::shared_ptr<tVideoPipeline> pipeline;
+    tVideoPipeline* pipeline;
     GMainLoop* loop;
     std::thread video_thread;
 
