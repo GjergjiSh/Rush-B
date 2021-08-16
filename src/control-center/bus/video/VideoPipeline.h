@@ -10,7 +10,7 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include <string>
-#include <thread>
+
 
 #define VLOG_INFO(msg) \
     std::cout << "[I] [ Bus : VideoPipeline  ] " << msg << std::endl;
@@ -39,10 +39,13 @@ typedef struct
     GstElement* udpsrc;
     GstElement* src_filter;
     GstElement* rtph264depay;
+    GstElement* depay_queue;
     GstElement* decodebin;
+    GstElement* decode_queue;
     GstElement* videoconvert;
+    GstElement* convert_queue;
     GstElement* sink_filter;
-    GstElement* queue;
+    GstElement* sink_queue;
     GstElement* appsink;
     tExtract_Data Extract_Data;
 } tVideoPipeline;
@@ -56,12 +59,9 @@ public:
 
     int32_t Destroy_Pipeline();
     int32_t Set_Pipeline_State_Playing();
-    void Start_Gloop();
 
     int32_t port;
     tVideoPipeline* pipeline;
-    GMainLoop* loop;
-    std::thread video_thread;
 
 private:
     int32_t Create_Elements();

@@ -86,20 +86,26 @@ int32_t VideoPipeline::Create_Elements()
     this->pipeline->udpsrc = gst_element_factory_make("udpsrc", NULL);
     this->pipeline->src_filter = gst_element_factory_make("capsfilter", NULL);
     this->pipeline->rtph264depay = gst_element_factory_make("rtph264depay", NULL);
+    this->pipeline->depay_queue = gst_element_factory_make("queue", NULL);
     this->pipeline->decodebin = gst_element_factory_make("decodebin", NULL);
+    this->pipeline->decode_queue = gst_element_factory_make("queue", NULL);
     this->pipeline->videoconvert = gst_element_factory_make("videoconvert", NULL);
+    this->pipeline->convert_queue = gst_element_factory_make("queue", NULL);
     this->pipeline->sink_filter = gst_element_factory_make("capsfilter", NULL);
-    this->pipeline->queue = gst_element_factory_make("queue", NULL);
+    this->pipeline->sink_queue = gst_element_factory_make("queue", NULL);
     this->pipeline->appsink = gst_element_factory_make("appsink", NULL);
 
     if (!pipeline->pipe ||
         !this->pipeline->udpsrc ||
         !this->pipeline->src_filter ||
         !this->pipeline->rtph264depay ||
+        !this->pipeline->depay_queue ||
         !this->pipeline->decodebin ||
+        !this->pipeline->decode_queue ||
         !this->pipeline->videoconvert ||
+        !this->pipeline->convert_queue ||
         !this->pipeline->sink_filter ||
-        !this->pipeline->queue ||
+        !this->pipeline->sink_queue ||
         !this->pipeline->appsink) {
         g_printerr("[I] [ Bus : VideoPipeline ] Failed to create all pipeline elements\n");
         return -1;
@@ -109,10 +115,13 @@ int32_t VideoPipeline::Create_Elements()
         this->pipeline->udpsrc,
         this->pipeline->src_filter,
         this->pipeline->rtph264depay,
+        this->pipeline->depay_queue,
         this->pipeline->decodebin,
+        this->pipeline->decode_queue,
         this->pipeline->videoconvert,
+        this->pipeline->convert_queue,
         this->pipeline->sink_filter,
-        this->pipeline->queue,
+        this->pipeline->sink_queue,
         this->pipeline->appsink, NULL);
 
     return 0;
@@ -154,19 +163,22 @@ int32_t VideoPipeline::Link_Elements()
             this->pipeline->udpsrc,
             this->pipeline->src_filter,
             this->pipeline->rtph264depay,
-            this->pipeline->decodebin, NULL)) {
+            this->pipeline->decode_queue,
+            this->pipeline->decodebin,
+            /* this->pipeline->decode_queue,  */NULL)) {
         g_printerr("[E] [ Bus : VideoPipeline ] Failed to link first branch of pipeline elements.\n");
-        gst_object_unref(this->pipeline->pipe);
+        delete this->pipeline;
         return -1;
     }
 
     if (!gst_element_link_many(
             this->pipeline->videoconvert,
+            this->pipeline->convert_queue,
             this->pipeline->sink_filter,
-            this->pipeline->queue,
+            this->pipeline->sink_queue,
             this->pipeline->appsink, NULL)) {
         g_printerr("[E] [ Bus : VideoPipeline ] Failed to link second branch of pipeline elements.\n");
-        gst_object_unref(pipeline->pipe);
+        delete this->pipeline;
         return -1;
     }
     return 0;
@@ -175,8 +187,8 @@ int32_t VideoPipeline::Link_Elements()
 int32_t VideoPipeline::Destroy_Pipeline()
 {
     gst_element_set_state(this->pipeline->pipe, GST_STATE_NULL);
-    g_object_unref(this->pipeline->pipe);
     printf("[I] [ Bus : VideoPipeline ] Subscriber Video Pipeline destroyed\n");
+    delete this->pipeline;
     return 0;
 }
 
@@ -185,17 +197,10 @@ int32_t VideoPipeline::Set_Pipeline_State_Playing()
     GstStateChangeReturn ret = gst_element_set_state(this->pipeline->pipe, GST_STATE_PLAYING);
     if (ret == GST_STATE_CHANGE_FAILURE) {
         g_printerr("[E] [ Bus : VideoPipeline ] Unable to set the pipeline to the playing state.\n");
-        gst_object_unref(this->pipeline->pipe);
+        delete this->pipeline;
         return -1;
     }
     g_print("[I] [ Bus : VideoPipeline ] Subscriber Video Pipeline set to playing\n");
     return 0;
-}
-
-void VideoPipeline::Start_Gloop()
-{
-    loop = g_main_loop_new(NULL, FALSE);
-    this->video_thread = std::thread(g_main_loop_run, loop);
-    this->video_thread.detach();
 }
 

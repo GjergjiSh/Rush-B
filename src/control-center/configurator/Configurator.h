@@ -12,6 +12,12 @@
 #define PY_INTERFACE_ACTIVE 3
 #define INTERFACE_TRANSPORT 4
 #define VIDEO_PORT 5
+#define OBJECT_DETECTION_ACTIVE 6
+#define OBJECT_DETECTION_MODEL 7
+#define OBJECT_DETECTION_MODEL_SIZE 8
+#define OBJECT_DETECTION_LABELS 9
+#define OBJECT_DETECTION_CONFIDENCE_TH 10
+#define OBJECT_DETECTION_MODEL_QUANTIZED 11
 
 #define CLOG_INFO(msg) \
     std::cout << "[I] [ ControlCenter : Configurator ] " << msg << std::endl;

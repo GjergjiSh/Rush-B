@@ -1,0 +1,3 @@
+[submodule "src/control-center/tf-object-detection/tf-dependencies"]
+	path = src/control-center/tf-object-detection/tf-dependencies
+	url = https://github.com/GjergjiSh/TFLite-Dependencies.git

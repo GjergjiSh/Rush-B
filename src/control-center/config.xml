@@ -6,6 +6,7 @@
     <ControlCenter>
         <ActiveDevice device="KEYBOARD" path="/dev/input/event4" />
         <ZMQPipeline tcp="0.0.0.0:5001" pyinterface-active = "FALSE" pyinterface-transport="interfacetransport" />
-        <VideoPipeline port="5000" object-detection-active = "FALSE"/>
+        <VideoPipeline port="5000"/>
+        <ObjectDetector active="TRUE" model="/home/gjshk527/repos/Steinbeis/adtf/adtf.experiments.video/tensorflow-training/Tensorflow/workspace/models/my_ssd_mobnet/tfliteexport/saved_model/detect.tflite" model_size="320" labels="/home/gjshk527/repos/Steinbeis/adtf/adtf.experiments.video/tensorflow-training/labels.txt" confidence_threshold="0.5" quantized="FALSE" />
     </ControlCenter>
 </Config>

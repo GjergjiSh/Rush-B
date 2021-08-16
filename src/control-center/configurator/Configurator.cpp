@@ -42,4 +42,10 @@ void Configurator::Print_Config()
     std::cout << "[I] ZMQ Pipeline - Interface ACTIVE: " << config_items.at(PY_INTERFACE_ACTIVE) << std::endl;
     std::cout << "[I] ZMQ Pipeline - Interface Transport: " << config_items.at(INTERFACE_TRANSPORT) << std::endl;
     std::cout << "[I] Video Pipeline - Video Port: " << config_items.at(VIDEO_PORT) << std::endl;
+    std::cout << "[I] ObjectDetector - Active: " << config_items.at(OBJECT_DETECTION_ACTIVE) << std::endl;
+    std::cout << "[I] ObjectDetector - Model: " << config_items.at(OBJECT_DETECTION_MODEL) << std::endl;
+    std::cout << "[I] ObjectDetector - Model Size: " << config_items.at(OBJECT_DETECTION_MODEL_SIZE) << std::endl;
+    std::cout << "[I] ObjectDetector - Model Quantized: " << config_items.at(OBJECT_DETECTION_MODEL_QUANTIZED) << std::endl;
+    std::cout << "[I] ObjectDetector - Confidence Threshold: " << config_items.at(OBJECT_DETECTION_CONFIDENCE_TH) << std::endl;
+
 }

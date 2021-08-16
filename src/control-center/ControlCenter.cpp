@@ -3,11 +3,24 @@
 ControlCenter::ControlCenter(const char* config_path){  DRAW_LINE
     this->configurator = std::make_unique<Configurator>(config_path);
     this->active_device = configurator->config_items.at(DEVICE).c_str();
+
     this->bus.zmq_pipeline.tcp_transport = configurator->config_items.at(TCP_TRANSPORT).c_str();
     this->bus.zmq_pipeline.ipc_interface_transport = configurator->config_items.at(INTERFACE_TRANSPORT).c_str();
-    this->bus.video_sub_pipe.port = stoi(configurator->config_items.at(VIDEO_PORT));
     if (configurator->config_items.at(PY_INTERFACE_ACTIVE) == "TRUE") {
         this->bus.zmq_pipeline.py_interface_active = true;
+    }
+
+    this->bus.video_sub_pipe.port = stoi(configurator->config_items.at(VIDEO_PORT));
+
+    if (this->configurator->config_items.at(OBJECT_DETECTION_ACTIVE) == "TRUE") {
+        this->bus.object_detection_active = true;
+        this->bus.object_detector.model_path = configurator->config_items.at(OBJECT_DETECTION_MODEL).c_str();
+        this->bus.object_detector.detection_model_size = stoi(configurator->config_items.at(OBJECT_DETECTION_MODEL_SIZE));
+        this->bus.object_detector.label_path = configurator->config_items.at(OBJECT_DETECTION_LABELS).c_str();
+        this->bus.object_detector.confidence_threshold = stof(configurator->config_items.at(OBJECT_DETECTION_CONFIDENCE_TH));
+        if (configurator->config_items.at(OBJECT_DETECTION_MODEL_QUANTIZED) == "TRUE") {
+            this->bus.object_detector.model_quantized = true;
+        }
     }
 }
 

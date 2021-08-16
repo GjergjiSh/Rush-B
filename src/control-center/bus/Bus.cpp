@@ -5,19 +5,27 @@ static void Extract_Data(GstMapInfo map, const int width, const int height)
 {
     unsigned char frame_data[(width * height * 3)];
     memcpy(frame_data, map.data, sizeof(frame_data));
-    cv::Mat frame = cv::Mat(height, width, CV_8UC3, (uchar*)frame_data, cv::Mat::AUTO_STEP);
-    if (frame.data) {
-        cv::imshow("frame", frame);
-        cv::waitKey(1);
+
+    std::scoped_lock<std::mutex> lock(bus->v_mutex);
+    bus->last_appsink_frame = cv::Mat(height, width, CV_8UC3, (uchar*)frame_data, cv::Mat::AUTO_STEP);
+
+    if (bus->last_appsink_frame.data) {
+        if (!bus->object_detection_active) {
+            bus->Display_Video();
+        }
     }
 }
 
 int32_t Bus::Init()
 {
+    if (this->object_detection_active) {
+        Init_Object_Detector();
+    }
+
     int32_t status = ZMQ_Init_Pipeline();
     status = Video_Init_Pipeline() & status;
     if (status == 0) {LOG_INFO("Bus succcessfuly initialzed");
-    } else {LOG_ERROR("Bus failed to initialize", ""); }
+    } else {LOG_ERROR("Bus failed to initialize", "");}
     return status;
 }
 
@@ -25,7 +33,12 @@ int32_t Bus::Deinit()
 {
     int32_t status = ZMQ_Deinit_Pipeline();
     status = Video_Deinit_Pipeline() & status;
-    if (status == 0) {LOG_INFO("Bus succcessfuly deinitialzed");
+
+    if (status == 0) {
+        if (this->detection_thread.joinable()) {
+            this->detection_thread.detach();
+        }
+        LOG_INFO("Bus succcessfuly deinitialzed");
     } else {LOG_ERROR("Bus failed to deinitialize", ""); }
 
     return status;
@@ -72,6 +85,12 @@ int32_t Bus::Publish_Driver_Wish(
     return 0;
 }
 
+void Bus::Display_Video()
+{
+    cv::imshow("Control Center", this->last_appsink_frame);
+    cv::waitKey(1);
+}
+
 int32_t Bus::Video_Init_Pipeline()
 {
     int32_t status = this->video_sub_pipe.Construct_Pipeline();
@@ -80,8 +99,26 @@ int32_t Bus::Video_Init_Pipeline()
         this->video_sub_pipe.pipeline->Extract_Data =  Extract_Data;
         status = this->video_sub_pipe.Set_Pipeline_State_Playing() & status;
     }
-    if (status == 0) {/* this->video_sub_pipe.Start_Gloop(); */}
     return status;
+}
+
+void Bus::Init_Object_Detector()
+{
+    this->object_detector.Init_Model();
+    this->object_detector.Load_Labels();
+
+    this->detection_thread = std::thread([this]() {
+        while (1) { Invoke_Detector();}
+    });
+}
+
+void Bus::Invoke_Detector()
+{
+    std::scoped_lock<std::mutex> lock(this->p_mutex);
+    if (this->last_appsink_frame.data) {
+        this->detection_results = this->object_detector.Detect(last_appsink_frame);
+        Display_Video();
+    }
 }
 
 int32_t Bus::Video_Deinit_Pipeline()
